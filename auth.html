@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admindly · Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-chrome="none">
+<div class="auth-shell">
+
+  <aside class="auth-aside">
+    <a class="brand" href="index.html" style="padding:0">
+      <span class="logo">A</span>
+      <span><span class="name">Admindly</span><span class="env">PROTOTYPE · v1</span></span>
+    </a>
+    <div>
+      <p class="a-quote">Your agentic copilot for creative, performance and competitor intelligence.</p>
+      <div class="a-list">
+        <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Bring a reel, post or static ad — get feedback and one-click edits</div>
+        <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Track 30/60/90-day performance across every connected account</div>
+        <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> See what's working for the top brands in your category</div>
+      </div>
+    </div>
+    <p class="mono mute" style="font-size:11px">Dummy authentication — any credentials continue to onboarding.</p>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="a-brand">
+        <span class="logo" style="width:26px;height:26px;font-size:13px">A</span>
+        <span style="font-family:var(--display);font-weight:700;font-size:18px">Admindly</span>
+      </div>
+
+      <div class="auth-toggle" role="tablist">
+        <button class="on" data-auth="login">Log In</button>
+        <button data-auth="signup">Sign Up</button>
+      </div>
+
+      <div class="sso-row">
+        <button class="btn"><svg viewBox="0 0 24 24" style="stroke:none;fill:currentColor"><circle cx="12" cy="12" r="9"/></svg> Google</button>
+        <button class="btn">SSO</button>
+      </div>
+      <div class="divider">OR</div>
+
+      <div class="field">
+        <label for="email">Work email</label>
+        <input class="input" id="email" type="email" value="sahil@lumenskincare.com" autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label for="pw">Password</label>
+        <input class="input error" id="pw" type="password" value="wrongpass" autocomplete="current-password">
+        <span class="hint err">Incorrect password — resets link sent to your email.</span>
+      </div>
+
+      <a class="btn primary block" href="onboarding.html">Log In</a>
+
+      <p class="hint" style="text-align:center">New here? <a data-auth="signup" href="#">Create an account</a> · then a 2-step setup.</p>
+
+      <div class="card" style="padding:14px;background:var(--surface-2)">
+        <span class="tag" style="color:var(--blue-hi)">Prototype states on this screen</span>
+        <div class="row wrap" style="gap:7px;margin-top:9px">
+          <span class="chip on">Default · Log In</span>
+          <span class="chip">Default · Sign Up</span>
+          <span class="chip bad">Field error</span>
+          <span class="chip">Submitting · spinner</span>
+          <span class="chip">Role + category step →</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-auth]');
+    if (!t) return;
+    e.preventDefault();
+    document.querySelectorAll('.auth-toggle button').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-auth') === t.getAttribute('data-auth'));
+    });
+  });
+</script>
+</body>
+</html>

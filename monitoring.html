@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admindly · Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="monitoring" data-title="Monitoring">
+<div class="app">
+  <div class="main">
+    <div class="content" data-tabscope>
+
+      <div class="page-head">
+        <h2>Monitoring Dashboard</h2>
+        <p>Performance for your creatives over rolling 30 / 60 / 90-day windows across every connected account.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="on" data-tab="connected">Connected</button>
+        <button data-tab="empty">Not connected</button>
+      </div>
+
+      <!-- ============ connected ============ -->
+      <div data-panel="connected">
+
+        <div class="row between center wrap" style="gap:12px;margin-bottom:14px">
+          <div class="segment" aria-label="Time range">
+            <button>30d</button><button class="on">60d</button><button>90d</button><button>Custom</button>
+          </div>
+          <div class="row center" style="gap:7px">
+            <span class="tag">Platform</span>
+            <span class="chip on" data-toggle>Instagram</span>
+            <span class="chip" data-toggle>Facebook</span>
+          </div>
+        </div>
+        <p class="hint" style="margin:-6px 0 16px">Time-range switcher is persistent and applies globally to this dashboard.</p>
+
+        <!-- KPI strip -->
+        <div class="grid g-4" style="margin-bottom:16px">
+          <div class="kpi"><span class="k-label">Reach</span><span class="k-val">184.2k</span><span class="k-delta up">▲ 12% vs prev</span></div>
+          <div class="kpi"><span class="k-label">Engagement rate</span><span class="k-val">3.1%</span><span class="k-delta down">▼ 0.4pt vs prev</span></div>
+          <div class="kpi"><span class="k-label">Follower growth</span><span class="k-val">+2,410</span><span class="k-delta up">▲ 8%</span></div>
+          <div class="kpi"><span class="k-label">Top post</span><span class="k-val" style="font-size:14px;font-family:var(--sans);font-weight:600">texture_closeup_reel</span><span class="k-delta up">▲ 6.8% eng.</span></div>
+        </div>
+
+        <!-- AI note -->
+        <div class="ai-note" style="margin-bottom:16px">
+          <span class="ai-ico"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.5-6.5-2 2m-7 7-2 2m11 0-2-2m-7-7-2-2"/></svg></span>
+          <div class="ai-body"><span class="ai-tag">Why the change</span>Engagement rate <b>dipped after posting time shifted to evenings</b> (7–9pm) three weeks ago — your audience is most active at 12–2pm. Reach held up because the algorithm still pushed the reordered-hook reel. Try moving 2 posts/week back to midday.</div>
+        </div>
+
+        <!-- chart -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">Engagement over time <span class="sub">Instagram · 60 days</span></div>
+          <div class="chart">
+            <svg viewBox="0 0 640 180" role="img" aria-label="Engagement trend, Instagram, 60 days">
+              <defs>
+                <linearGradient id="blueFade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2F6BFF" stop-opacity="0.28"/>
+                  <stop offset="1" stop-color="#2F6BFF" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line class="grid-l" x1="8" y1="20" x2="632" y2="20"/>
+              <line class="grid-l" x1="8" y1="70" x2="632" y2="70"/>
+              <line class="grid-l" x1="8" y1="120" x2="632" y2="120"/>
+              <path class="area" d="M8,132 L70,120 L140,126 L210,88 L280,96 L350,60 L420,104 L490,120 L560,112 L632,96 L632,168 L8,168 Z"/>
+              <polyline class="line-a" points="8,132 70,120 140,126 210,88 280,96 350,60 420,104 490,120 560,112 632,96"/>
+              <polyline class="line-b" points="8,150 70,146 140,140 210,138 280,132 350,128 420,140 490,150 560,150 632,144"/>
+              <circle class="pt" cx="350" cy="60" r="4"/>
+              <text class="axis-t" x="8" y="14">eng. rate</text>
+              <text class="axis-t" x="330" y="52">peak: reordered hook</text>
+              <text class="axis-t" x="8" y="180">60d ago</text>
+              <text class="axis-t" x="600" y="180">today</text>
+            </svg>
+          </div>
+          <div class="row" style="gap:16px;margin-top:8px;font-family:var(--mono);font-size:10.5px;color:var(--text-mute)">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:2px;background:var(--blue);display:inline-block"></span> This period</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:2px;background:var(--text-mute);display:inline-block"></span> Previous period</span>
+          </div>
+        </div>
+
+        <!-- per-creative table -->
+        <div class="row between center" style="margin-bottom:10px">
+          <div class="card-title" style="margin:0">Per-creative performance</div>
+          <span class="tag">sorted by engagement ▾</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr>
+              <th>Creative</th>
+              <th class="sortable">Reach</th>
+              <th class="sortable on">Engagement ▾</th>
+              <th class="sortable">Saves</th>
+              <th class="sortable">Follows</th>
+              <th>7-day trend</th>
+            </tr></thead>
+            <tbody>
+              <tr><td class="name"><span class="thumb"></span> texture_closeup_reel</td><td>72.1k</td><td>6.8%</td><td>1,204</td><td>+612</td><td><span class="spark"><i style="height:6px"></i><i style="height:9px"></i><i style="height:13px"></i><i style="height:18px"></i></span></td></tr>
+              <tr><td class="name"><span class="thumb"></span> founder_pov_post</td><td>48.9k</td><td>4.2%</td><td>867</td><td>+310</td><td><span class="spark"><i style="height:10px"></i><i style="height:8px"></i><i style="height:12px"></i><i style="height:11px"></i></span></td></tr>
+              <tr><td class="name"><span class="thumb"></span> spring_serum_reel · v1</td><td>39.4k</td><td>2.4%</td><td>402</td><td>+96</td><td><span class="spark"><i style="height:12px"></i><i style="height:9px"></i><i style="height:7px"></i><i style="height:5px"></i></span></td></tr>
+              <tr><td class="name"><span class="thumb"></span> shelf_static_ad</td><td>23.8k</td><td>1.6%</td><td>141</td><td>+22</td><td><span class="spark"><i style="height:5px"></i><i style="height:5px"></i><i style="height:6px"></i><i style="height:6px"></i></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note-strip"><b>Consistent card pattern</b> — KPI tiles and list rows here match the Competitor screen so the suite reads as one product.</div>
+      </div>
+
+      <!-- ============ not connected ============ -->
+      <div data-panel="empty" hidden>
+        <div class="empty">
+          <span class="e-ico"><svg viewBox="0 0 24 24"><path d="M4 19V6m5 13V10m5 9V4m5 15v-7"/></svg></span>
+          <h3>Connect an account to see performance</h3>
+          <p>Monitoring is empty until at least one social account is linked. Connection is its own step — OAuth per platform, with a status indicator you'll see across the app.</p>
+          <div class="grid g-2" style="width:100%;max-width:460px;margin-top:6px">
+            <div class="connect-card"><span class="pf ig">IG</span><div style="font-weight:600;font-size:13px">Instagram</div><span class="chip warn">Not connected</span><button class="btn primary sm block">Connect with OAuth</button></div>
+            <div class="connect-card"><span class="pf fb">FB</span><div style="font-weight:600;font-size:13px">Facebook</div><span class="chip warn">Not connected</span><button class="btn primary sm block">Connect with OAuth</button></div>
+          </div>
+        </div>
+        <div class="note-strip"><b>Two states everywhere</b> — this connected / not-connected pair recurs on Monitoring and Competitors.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

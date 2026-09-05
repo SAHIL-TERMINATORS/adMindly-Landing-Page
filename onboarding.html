@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admindly · Set up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-chrome="none">
+<div class="auth-main" style="align-items:start;padding-top:48px">
+  <div style="width:100%;max-width:640px;display:flex;flex-direction:column;gap:20px">
+
+    <div class="a-brand" style="justify-content:flex-start">
+      <span class="logo" style="width:26px;height:26px;font-size:13px">A</span>
+      <span style="font-family:var(--display);font-weight:700;font-size:18px">Admindly</span>
+    </div>
+
+    <div class="row center" style="gap:8px">
+      <span class="chip on">1 · Role &amp; category</span>
+      <span class="mute mono">──</span>
+      <span class="chip">2 · Connect accounts</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">How will you use Admindly?</div>
+      <p class="dim" style="margin-bottom:14px;font-size:13px">This pre-scopes your Monitoring and Competitor screens so they open with the right data instead of empty.</p>
+      <div class="role-pick">
+        <span class="chip on" data-toggle>◎ Marketer</span>
+        <span class="chip" data-toggle>Brand</span>
+        <span class="chip" data-toggle>Influencer</span>
+      </div>
+
+      <div class="field" style="margin-top:16px">
+        <label for="cat">Category / niche</label>
+        <select class="input" id="cat">
+          <option>Beauty &amp; skincare</option>
+          <option>Fitness &amp; wellness</option>
+          <option>Food &amp; beverage</option>
+          <option>Fashion &amp; apparel</option>
+          <option>Tech &amp; SaaS</option>
+        </select>
+        <span class="hint">Drives the leaderboard and trend feed on the Competitor screen.</span>
+      </div>
+
+      <div class="field" style="margin-top:14px">
+        <label for="brand">Brand / handle</label>
+        <input class="input" id="brand" value="Lumen Skincare">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Connect your accounts <span class="sub">optional now · required for Monitoring</span></div>
+      <div class="grid g-2">
+        <div class="connect-card">
+          <span class="pf ig">IG</span>
+          <div><div style="font-weight:600;font-size:13.5px">Instagram</div><div class="mono mute" style="font-size:11px">Reach, engagement, follower growth</div></div>
+          <span class="chip warn">Not connected</span>
+          <button class="btn primary sm block">Connect with OAuth</button>
+        </div>
+        <div class="connect-card">
+          <span class="pf fb">FB</span>
+          <div><div style="font-weight:600;font-size:13.5px">Facebook</div><div class="mono mute" style="font-size:11px">Page insights, post performance</div></div>
+          <span class="chip warn">Not connected</span>
+          <button class="btn primary sm block">Connect with OAuth</button>
+        </div>
+        <div class="connect-card">
+          <span class="pf tt">TT</span>
+          <div><div style="font-weight:600;font-size:13.5px">TikTok</div><div class="mono mute" style="font-size:11px">Video views, shares, watch time</div></div>
+          <span class="chip">Coming soon</span>
+          <button class="btn sm block" disabled>Connect</button>
+        </div>
+        <div class="connect-card">
+          <span class="pf yt">YT</span>
+          <div><div style="font-weight:600;font-size:13.5px">YouTube</div><div class="mono mute" style="font-size:11px">Views, retention, subscribers</div></div>
+          <span class="chip">Coming soon</span>
+          <button class="btn sm block" disabled>Connect</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row between center">
+      <a class="btn ghost" href="auth.html">← Back</a>
+      <a class="btn primary" href="home.html">Finish setup →</a>
+    </div>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

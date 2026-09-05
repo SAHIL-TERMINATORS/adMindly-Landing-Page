@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admindly · Creative Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="library" data-title="Creative Library">
+<div class="app">
+  <div class="main">
+    <div class="content">
+
+      <div class="page-head">
+        <h2>Creative Library</h2>
+        <p>Every original and AI-edited version, grouped by creative. Linked from the Copilot and the Content Calendar.</p>
+      </div>
+
+      <div class="row between center wrap" style="gap:10px;margin-bottom:16px">
+        <div class="row wrap" style="gap:7px">
+          <span class="chip on" data-toggle>All</span>
+          <span class="chip" data-toggle>Reels</span>
+          <span class="chip" data-toggle>Posts</span>
+          <span class="chip" data-toggle>Static ads</span>
+          <span class="chip" data-toggle>Edited by Copilot</span>
+        </div>
+        <div class="segment"><button class="on">Grid</button><button>List</button></div>
+      </div>
+
+      <div class="grid g-3">
+
+        <div class="card">
+          <div class="media tall"><span class="pill">reel · v2</span>spring_serum_reel</div>
+          <div class="row between center" style="margin:11px 0 8px">
+            <div style="font-weight:600;font-size:13.5px">spring_serum_reel</div>
+            <span class="chip on" style="padding:2px 8px;font-size:9px">3 versions</span>
+          </div>
+          <div class="vs-items">
+            <span class="vpill">v1 · original</span>
+            <span class="vpill on">v2 · reordered hook</span>
+            <span class="vpill ghost">v3 · caption</span>
+          </div>
+          <div class="row" style="gap:7px;margin-top:11px">
+            <a class="btn sm grow" href="chat.html">Open in Copilot</a>
+            <a class="btn sm grow" href="calendar.html">Schedule</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="media tall"><span class="pill">reel · v1</span>founder_pov_post</div>
+          <div class="row between center" style="margin:11px 0 8px">
+            <div style="font-weight:600;font-size:13.5px">founder_pov_post</div>
+            <span class="chip" style="padding:2px 8px;font-size:9px">1 version</span>
+          </div>
+          <div class="vs-items"><span class="vpill on">v1 · original</span></div>
+          <div class="row" style="gap:7px;margin-top:11px">
+            <a class="btn sm grow" href="chat.html">Open in Copilot</a>
+            <a class="btn sm grow" href="calendar.html">Schedule</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="media tall"><span class="pill">static · v2</span>shelf_static_ad</div>
+          <div class="row between center" style="margin:11px 0 8px">
+            <div style="font-weight:600;font-size:13.5px">shelf_static_ad</div>
+            <span class="chip on" style="padding:2px 8px;font-size:9px">2 versions</span>
+          </div>
+          <div class="vs-items"><span class="vpill">v1 · original</span><span class="vpill on">v2 · new headline</span></div>
+          <div class="row" style="gap:7px;margin-top:11px">
+            <a class="btn sm grow" href="chat.html">Open in Copilot</a>
+            <a class="btn sm grow" href="calendar.html">Schedule</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-title">Version history <span class="sub">spring_serum_reel</span></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Version</th><th>Change</th><th>Source</th><th>Created</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="name">v1</td><td>Original upload</td><td>Instagram import</td><td>Aug 28</td><td><a href="chat.html">Restore</a></td></tr>
+              <tr><td class="name">v2</td><td>Reordered hook — texture-first frame</td><td>Copilot suggestion</td><td>Sep 2</td><td><span class="chip on" style="padding:2px 8px;font-size:9px">current</span></td></tr>
+              <tr><td class="name">v3</td><td>Caption opens with a question</td><td>Copilot · pending</td><td>—</td><td><a href="chat.html">Review</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

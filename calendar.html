@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admindly · Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="calendar" data-title="Content Calendar">
+<div class="app">
+  <div class="main">
+    <div class="content">
+
+      <div class="page-head">
+        <h2>Content Calendar <span class="chip" style="vertical-align:middle">stub screen</span></h2>
+        <p>Once a creative is approved, queue or schedule it — closing the loop between feedback and publishing. Linked from the Copilot and the Library.</p>
+      </div>
+
+      <div class="row between center wrap" style="gap:10px;margin-bottom:14px">
+        <div class="row center" style="gap:10px">
+          <button class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <strong style="font-family:var(--display)">September 2026</strong>
+          <button class="icon-btn"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="row center" style="gap:8px">
+          <div class="segment"><button class="on">Month</button><button>List</button></div>
+          <a class="btn primary sm" href="library.html"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Schedule approved creative</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cal-grid">
+          <div class="dow">Mon</div><div class="dow">Tue</div><div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div><div class="dow">Sun</div>
+
+          <div class="cal-cell dim"><span class="d">31</span></div>
+          <div class="cal-cell"><span class="d">1</span><span class="cal-ev posted">founder_pov_post</span></div>
+          <div class="cal-cell"><span class="d">2</span></div>
+          <div class="cal-cell"><span class="d">3</span><span class="cal-ev posted">shelf_static_ad</span></div>
+          <div class="cal-cell"><span class="d">4</span></div>
+          <div class="cal-cell dim"><span class="d">5</span></div>
+          <div class="cal-cell dim"><span class="d">6</span></div>
+
+          <div class="cal-cell"><span class="d">7</span></div>
+          <div class="cal-cell today"><span class="d">8 · today</span><span class="cal-ev queued">spring_serum_reel v2 · 12:30</span></div>
+          <div class="cal-cell"><span class="d">9</span></div>
+          <div class="cal-cell"><span class="d">10</span><span class="cal-ev queued">ingredient_carousel · draft</span></div>
+          <div class="cal-cell"><span class="d">11</span></div>
+          <div class="cal-cell dim"><span class="d">12</span></div>
+          <div class="cal-cell dim"><span class="d">13</span></div>
+
+          <div class="cal-cell"><span class="d">14</span></div>
+          <div class="cal-cell"><span class="d">15</span><span class="cal-ev">founder_pov_2 · pending approval</span></div>
+          <div class="cal-cell"><span class="d">16</span></div>
+          <div class="cal-cell"><span class="d">17</span><span class="cal-ev queued">spring_serum_reel v3 · 12:30</span></div>
+          <div class="cal-cell"><span class="d">18</span></div>
+          <div class="cal-cell dim"><span class="d">19</span></div>
+          <div class="cal-cell dim"><span class="d">20</span></div>
+        </div>
+        <div class="row" style="gap:16px;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--text-mute)">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-left:2px solid var(--blue);background:var(--surface-3);display:inline-block"></span> Scheduled</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-left:2px solid var(--warn);background:var(--surface-3);display:inline-block"></span> Queued / draft</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-left:2px solid var(--good);background:var(--surface-3);display:inline-block"></span> Posted</span>
+        </div>
+      </div>
+
+      <div class="note-strip"><b>Prototype depth</b> — enough to show the feedback → approval → schedule loop. Publishing integrations are out of scope for this build.</div>
+
+    </div>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>
