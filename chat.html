@@ -42,7 +42,7 @@
             Thread <span class="sub">design partner, not a form</span>
           </div>
 
-          <div class="thread">
+          <div class="thread" id="cvThread">
             <div class="msg user"><div class="who">You</div><div class="bubble">Here's the spring serum reel — does the hook land? It feels slow.</div>
               <div class="media" style="min-height:70px;margin-top:8px;width:180px;margin-left:auto"><span class="pill">reel · 0:14</span></div>
             </div>
@@ -70,10 +70,15 @@
             </div>
           </div>
 
-          <div class="composer">
-            <div class="box"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-6 5-5 5 5m-5-5v13"/></svg> Drop a file, import from Instagram, or reply…</div>
+          <form class="composer" id="cvComposer">
+            <div class="box" style="padding:6px 6px 6px 12px">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-6 5-5 5 5m-5-5v13"/></svg>
+              <input id="cvInput" type="text" autocomplete="off" placeholder="Drop a file, import from Instagram, or reply…"
+                style="flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:12.5px;outline:none">
+              <button class="btn primary sm" type="submit" aria-label="Send">Send</button>
+            </div>
             <span class="hint">Upload = drag-and-drop or platform import. History and edits stay attached to this creative.</span>
-          </div>
+          </form>
         </section>
 
         <!-- canvas -->
@@ -83,14 +88,14 @@
             Creative canvas <span class="sub">kept in sync with the thread</span>
           </div>
           <div class="canvas-body">
-            <div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div>
+            <div id="cvCanvas"><div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div></div>
 
             <div class="row between center">
-              <div class="segment">
-                <button class="on">Current</button>
-                <button>Before / after</button>
+              <div class="segment" id="cvSeg">
+                <button class="on" type="button">Current</button>
+                <button type="button">Before / after</button>
               </div>
-              <button class="btn ghost sm"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg> Revert</button>
+              <button class="btn ghost sm" id="cvRevert" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg> Revert</button>
             </div>
 
             <div class="version-strip">
@@ -192,16 +197,79 @@
 </div>
 <script src="assets/app.js"></script>
 <script>
-  /* prototype: clicking "Apply edit" in the live thread nudges the canvas version strip */
+(function () {
+  var thread = document.getElementById('cvThread'),
+      canvas = document.getElementById('cvCanvas');
+
+  function scroll() { thread.scrollTop = thread.scrollHeight; }
+
+  /* Apply edit -> mark applied + light up the pending version */
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-apply]');
-    if (!b) return;
-    b.textContent = 'Applied ✓';
-    b.classList.remove('primary');
-    b.disabled = true;
+    if (!b || b.disabled) return;
+    b.textContent = 'Applied ✓'; b.classList.remove('primary'); b.disabled = true;
     var ghost = document.querySelector('.vpill.ghost');
-    if (ghost) { ghost.classList.remove('ghost'); }
+    if (ghost) ghost.classList.remove('ghost');
+    var line = document.createElement('div');
+    line.className = 'sys-line good';
+    line.innerHTML = '<span class="ln"></span> ✓ Edit applied — creative regenerated <span class="ln"></span>';
+    thread.appendChild(line); scroll();
   });
+
+  /* canvas view: Current  <->  Before / after */
+  document.getElementById('cvSeg').addEventListener('click', function (e) {
+    var btn = e.target.closest('button'); if (!btn) return;
+    if (btn.textContent.trim() === 'Current') {
+      canvas.innerHTML = '<div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div>';
+    } else {
+      canvas.innerHTML =
+        '<div class="ba-grid">' +
+          '<div><div class="lab">Before · v1</div><div class="media" style="min-height:150px">shelf intro</div></div>' +
+          '<div><div class="lab" style="color:var(--blue-hi)">After · v2</div><div class="media" style="min-height:150px;border-color:var(--blue-line)">texture-first</div></div>' +
+        '</div>';
+    }
+  });
+
+  /* Revert */
+  document.getElementById('cvRevert').addEventListener('click', function () {
+    canvas.innerHTML = '<div class="media tall"><span class="pill">current · v1</span>back to original</div>';
+    document.querySelectorAll('.canvas-body .vpill').forEach(function (p, i) {
+      p.classList.toggle('on', i === 0);
+    });
+    var line = document.createElement('div');
+    line.className = 'sys-line';
+    line.innerHTML = '<span class="ln"></span> ↩ Reverted to v1 · original <span class="ln"></span>';
+    thread.appendChild(line); scroll();
+  });
+
+  /* composer: send a message, get a canned reply */
+  var REPLIES = [
+    'Good call. I’d still lead with motion in the first frame — the texture shot reads best as a 0.5s push-in.',
+    'That works. Keep the caption to one line so it clears the UI on Reels.',
+    'Noted. Want me to regenerate with that change and drop a v3 in the canvas?',
+    'The midday slot is the bigger lever here — same creative, 12–2pm, usually +1–2pt engagement.'
+  ];
+  var r = 0;
+  document.getElementById('cvComposer').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('cvInput'), text = input.value.trim();
+    if (!text) return;
+    var u = document.createElement('div');
+    u.className = 'msg user';
+    u.innerHTML = '<div class="who">You</div><div class="bubble"></div>';
+    u.querySelector('.bubble').textContent = text;
+    thread.appendChild(u); input.value = ''; scroll();
+
+    var pending = document.createElement('div');
+    pending.className = 'msg ai';
+    pending.innerHTML = '<div class="who">Copilot</div><div class="bubble">…</div>';
+    thread.appendChild(pending); scroll();
+    setTimeout(function () {
+      pending.querySelector('.bubble').textContent = REPLIES[r++ % REPLIES.length];
+      scroll();
+    }, 700);
+  });
+})();
 </script>
 </body>
 </html>

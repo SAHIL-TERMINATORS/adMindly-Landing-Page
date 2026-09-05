@@ -20,24 +20,24 @@
     <div class="content">
 
       <div class="page-head">
-        <h2>Content Calendar <span class="chip" style="vertical-align:middle">stub screen</span></h2>
+        <h2>Content Calendar <span class="chip" style="vertical-align:middle">preview</span></h2>
         <p>Once a creative is approved, queue or schedule it — closing the loop between feedback and publishing. Linked from the Copilot and the Library.</p>
       </div>
 
       <div class="row between center wrap" style="gap:10px;margin-bottom:14px">
         <div class="row center" style="gap:10px">
-          <button class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <strong style="font-family:var(--display)">September 2026</strong>
-          <button class="icon-btn"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          <button class="icon-btn" id="calPrev" type="button" aria-label="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <strong style="font-family:var(--display)" id="calMonth">September 2026</strong>
+          <button class="icon-btn" id="calNext" type="button" aria-label="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
         </div>
         <div class="row center" style="gap:8px">
-          <div class="segment"><button class="on">Month</button><button>List</button></div>
-          <a class="btn primary sm" href="library.html"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Schedule approved creative</a>
+          <div class="segment" id="calView"><button class="on" type="button">Month</button><button type="button">List</button></div>
+          <a class="btn primary sm" href="library.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Schedule approved creative</a>
         </div>
       </div>
 
-      <div class="card">
-        <div class="cal-grid">
+      <div class="card" id="calCard">
+        <div class="cal-grid" id="calGrid">
           <div class="dow">Mon</div><div class="dow">Tue</div><div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div><div class="dow">Sun</div>
 
           <div class="cal-cell dim"><span class="d">31</span></div>
@@ -71,11 +71,59 @@
         </div>
       </div>
 
+      <div class="card" id="calListView" hidden>
+        <div class="col" style="gap:2px">
+          <div class="notif" style="border:0"><span class="n-ico good"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div class="n-body"><div class="n-title">founder_pov_post</div><div class="n-desc">Posted · Sep 1</div></div><span class="n-time">posted</span></div>
+          <div class="notif" style="border:0"><span class="n-ico good"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div class="n-body"><div class="n-title">shelf_static_ad</div><div class="n-desc">Posted · Sep 3</div></div><span class="n-time">posted</span></div>
+          <div class="notif" style="border:0"><span class="n-ico blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span><div class="n-body"><div class="n-title">spring_serum_reel v2</div><div class="n-desc">Scheduled · Sep 8, 12:30</div></div><span class="n-time">queued</span></div>
+          <div class="notif" style="border:0"><span class="n-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v8m-4-4h8"/></svg></span><div class="n-body"><div class="n-title">ingredient_carousel</div><div class="n-desc">Draft · Sep 10</div></div><span class="n-time">draft</span></div>
+          <div class="notif" style="border:0"><span class="n-ico warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4m0 4h.01"/><circle cx="12" cy="12" r="9"/></svg></span><div class="n-body"><div class="n-title">founder_pov_2</div><div class="n-desc">Pending approval · Sep 15</div></div><span class="n-time">review</span></div>
+          <div class="notif" style="border:0"><span class="n-ico blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span><div class="n-body"><div class="n-title">spring_serum_reel v3</div><div class="n-desc">Scheduled · Sep 17, 12:30</div></div><span class="n-time">queued</span></div>
+        </div>
+      </div>
+
+      <div class="empty" id="calEmpty" hidden style="margin-top:0">
+        <span class="e-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4m8-4v4"/></svg></span>
+        <h3 id="calEmptyMsg">Nothing scheduled yet</h3>
+        <p>Approved creatives land here. Head to the Library to schedule one.</p>
+        <a class="btn primary sm" href="library.html">Open the Library</a>
+      </div>
+
       <div class="note-strip"><b>Prototype depth</b> — enough to show the feedback → approval → schedule loop. Publishing integrations are out of scope for this build.</div>
 
     </div>
   </div>
 </div>
 <script src="assets/app.js"></script>
+<script>
+/* prototype: month/list view + month navigation */
+(function () {
+  var MONTHS = ['July 2026','August 2026','September 2026','October 2026','November 2026'];
+  var idx = 2, view = 'month';
+  var label = document.getElementById('calMonth'),
+      grid = document.getElementById('calCard'),
+      listView = document.getElementById('calListView'),
+      empty = document.getElementById('calEmpty'),
+      emptyMsg = document.getElementById('calEmptyMsg');
+  function render() {
+    label.textContent = MONTHS[idx];
+    var current = idx === 2;
+    if (!current) {
+      grid.hidden = true; listView.hidden = true; empty.hidden = false;
+      emptyMsg.textContent = 'Nothing scheduled in ' + MONTHS[idx].split(' ')[0];
+      return;
+    }
+    empty.hidden = true;
+    grid.hidden = view === 'list';
+    listView.hidden = view !== 'list';
+  }
+  document.getElementById('calPrev').addEventListener('click', function () { idx = Math.max(0, idx - 1); render(); });
+  document.getElementById('calNext').addEventListener('click', function () { idx = Math.min(MONTHS.length - 1, idx + 1); render(); });
+  document.getElementById('calView').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    view = b.textContent.trim().toLowerCase(); render();
+  });
+})();
+</script>
 </body>
 </html>

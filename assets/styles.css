@@ -298,6 +298,12 @@ button{font-family:inherit}
 @media (max-width:1080px){.g-4{grid-template-columns:repeat(2,minmax(0,1fr))}.g-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:720px){.g-2,.g-3,.g-4{grid-template-columns:1fr}}
 
+/* library list view */
+#libGrid.list{grid-template-columns:1fr;max-width:660px}
+#libGrid.list .card{display:grid;grid-template-columns:160px minmax(0,1fr);column-gap:16px;align-items:center}
+#libGrid.list .card .media{grid-row:1/-1;align-self:stretch;min-height:96px}
+@media (max-width:520px){#libGrid.list .card{grid-template-columns:1fr}#libGrid.list .card .media{grid-row:auto}}
+
 .card{
   background:var(--surface);
   border:1px solid var(--line);
@@ -491,6 +497,8 @@ table.data .name{color:var(--text);font-weight:600;display:flex;align-items:cent
 }
 .lb-row + .lb-row{margin-top:8px}
 .lb-row:hover{border-color:var(--blue-line)}
+.lb-row[tabindex]{cursor:pointer}
+.lb-row.is-sel{border-color:var(--blue-line);background:var(--blue-wash)}
 .lb-rank{font-family:var(--display);font-weight:700;font-size:15px;color:var(--text-mute);text-align:center}
 .lb-rank.top{color:var(--blue-hi)}
 .lb-av{width:40px;height:40px;border-radius:10px;background:var(--avatar-grad);border:1px solid var(--line-soft)}
