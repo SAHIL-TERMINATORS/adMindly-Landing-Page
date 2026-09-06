@@ -19,8 +19,8 @@
   var emptyPanel = document.querySelector('[data-panel="empty"]');
   var platformRow = document.querySelector('[data-panel="connected"] .row.center');
 
-  var LABELS = { instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' };
-  var PF = { instagram: 'ig', youtube: 'yt', tiktok: 'tt' };
+  var LABELS = { instagram: 'Instagram', facebook: 'Facebook', youtube: 'YouTube', tiktok: 'TikTok' };
+  var PF = { instagram: 'ig', facebook: 'fb', youtube: 'yt', tiktok: 'tt' };
 
   var SAMPLE = {
     30: { sub:'Instagram · 30 days', kpi:[['92.6k','▲ 7% vs prev','up'],['3.4%','▲ 0.2pt','up'],['+1,180','▲ 5%','up'],['texture_closeup_reel','▲ 7.1% eng.','up']],

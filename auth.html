@@ -52,6 +52,7 @@
       <div class="sso-row" style="flex-direction:column">
         <button class="btn block" id="loginGoogle" type="button"><svg viewBox="0 0 24 24" style="stroke:none;fill:currentColor"><circle cx="12" cy="12" r="9"/></svg> Continue with Google</button>
         <button class="btn block" id="loginInstagram" type="button"><span class="pf ig" style="width:18px;height:18px;font-size:0;border-radius:5px"></span> Continue with Instagram</button>
+        <button class="btn block" id="loginFacebook" type="button"><span class="pf fb" style="width:18px;height:18px;font-size:0;border-radius:5px"></span> Continue with Facebook</button>
       </div>
       <div class="divider">OR</div>
 
@@ -92,13 +93,18 @@
   if (gb) gb.addEventListener('click', go('/api/login/google/start?return=/auth.html'));
   var ib = document.getElementById('loginInstagram');
   if (ib) ib.addEventListener('click', go('/api/auth/instagram/start?return=/auth.html'));
+  var fb = document.getElementById('loginFacebook');
+  if (fb) fb.addEventListener('click', go('/api/auth/facebook/start?return=/auth.html'));
 
-  // grey out Instagram if it isn't set up on this deployment
+  // grey out providers that aren't set up on this deployment
   fetch(base + '/api/social/insights', { credentials: 'include' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (j) {
-      var p = j && j.providers && j.providers.instagram;
-      if (p && !p.configured && ib) { ib.disabled = true; ib.title = 'Not set up'; }
+      if (!j || !j.providers) return;
+      [['instagram', ib], ['facebook', fb]].forEach(function (pair) {
+        var p = j.providers[pair[0]];
+        if (p && !p.configured && pair[1]) { pair[1].disabled = true; pair[1].title = 'Not set up'; }
+      });
     }).catch(function () {});
 
   var q = new URLSearchParams(location.search);

@@ -349,6 +349,4 @@ function weeklyFromDaily(rows, days, key) {
   return out;
 }
 
-// facebook adapter kept above but not exported — Meta app is dev-only / needs a Page.
-// Re-add `facebook` here to bring it back.
-module.exports = { instagram, youtube, tiktok };
+module.exports = { instagram, facebook, youtube, tiktok };
