@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
 <meta name="description" content="Monitoring Dashboard — rolling 30/60/90-day performance across every connected account, with plain-language explainers.">
+<meta name="admindly:api-base" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -55,7 +56,7 @@
         <!-- AI note -->
         <div class="ai-note" style="margin-bottom:16px">
           <span class="ai-ico"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.5-6.5-2 2m-7 7-2 2m11 0-2-2m-7-7-2-2"/></svg></span>
-          <div class="ai-body"><span class="ai-tag">Why the change</span>Engagement rate <b>dipped after posting time shifted to evenings</b> (7–9pm) three weeks ago — your audience is most active at 12–2pm. Reach held up because the algorithm still pushed the reordered-hook reel. Try moving 2 posts/week back to midday.</div>
+          <div class="ai-body" data-ai-insight data-metrics='{"window":"60 days","reach":"184.2k (+12% vs prev)","engagement_rate":"3.1% (-0.4pt vs prev)","follower_growth":"+2,410","top_post":"texture_closeup_reel","known_context":"posting time shifted to evenings 7-9pm about 3 weeks ago; audience is most active 12-2pm"}'><span class="ai-tag">Why the change</span>Engagement rate <b>dipped after posting time shifted to evenings</b> (7–9pm) three weeks ago — your audience is most active at 12–2pm. Reach held up because the algorithm still pushed the reordered-hook reel. Try moving 2 posts/week back to midday.</div>
         </div>
 
         <!-- chart -->
@@ -133,6 +134,7 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
+<script src="assets/copilot.js"></script>
 <script>
 /* prototype: 30 / 60 / 90-day switch swaps the KPI strip and redraws the trend */
 (function () {

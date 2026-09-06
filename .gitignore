@@ -8,3 +8,12 @@ Thumbs.db
 # local dev
 _*.html
 *.log
+
+# secrets & deploy
+.env
+.env.*
+!.env.example
+.vercel
+.wrangler
+worker/.wrangler
+node_modules/

@@ -8,6 +8,9 @@
 <meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
 <meta name="description" content="Creative Copilot — bring a reel, post or ad and get feedback with one-click edits that regenerate the creative.">
+<!-- Gemini proxy base URL. Empty = same origin (/api/chat), e.g. on Vercel.
+     Set to your Worker URL if the backend is hosted separately. -->
+<meta name="admindly:api-base" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -38,11 +41,15 @@
         <!-- thread -->
         <section class="thread-pane">
           <div class="pane-head">
-            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M21 11.5a8.4 8.4 0 0 1-13 7l-5 1 1.4-4A8.4 8.4 0 1 1 21 11.5Z"/></svg>
-            Thread <span class="sub">design partner, not a form</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M21 11.5a8.4 8.4 0 0 1-13 7l-5 1 1.4-4A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+            Thread
+            <span class="ai-status" id="cvStatus" data-state="demo" title="Live = answers come from Gemini · Demo = scripted fallback">○ demo mode</span>
           </div>
 
-          <div class="thread" id="cvThread">
+          <div class="thread" id="cvThread"
+               data-creative="spring_serum_reel.mp4 — a 0:14 vertical Reel for a skincare brand"
+               data-notes="Opens on the product on a shelf (no motion/face for the first 2s). Texture close-up at 0:08 is the strongest frame. Current cut is v2 with the hook reordered.">
+
             <div class="msg user"><div class="who">You</div><div class="bubble">Here's the spring serum reel — does the hook land? It feels slow.</div>
               <div class="media" style="min-height:70px;margin-top:8px;width:180px;margin-left:auto"><span class="pill">reel · 0:14</span></div>
             </div>
@@ -196,80 +203,6 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
-<script>
-(function () {
-  var thread = document.getElementById('cvThread'),
-      canvas = document.getElementById('cvCanvas');
-
-  function scroll() { thread.scrollTop = thread.scrollHeight; }
-
-  /* Apply edit -> mark applied + light up the pending version */
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-apply]');
-    if (!b || b.disabled) return;
-    b.textContent = 'Applied ✓'; b.classList.remove('primary'); b.disabled = true;
-    var ghost = document.querySelector('.vpill.ghost');
-    if (ghost) ghost.classList.remove('ghost');
-    var line = document.createElement('div');
-    line.className = 'sys-line good';
-    line.innerHTML = '<span class="ln"></span> ✓ Edit applied — creative regenerated <span class="ln"></span>';
-    thread.appendChild(line); scroll();
-  });
-
-  /* canvas view: Current  <->  Before / after */
-  document.getElementById('cvSeg').addEventListener('click', function (e) {
-    var btn = e.target.closest('button'); if (!btn) return;
-    if (btn.textContent.trim() === 'Current') {
-      canvas.innerHTML = '<div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div>';
-    } else {
-      canvas.innerHTML =
-        '<div class="ba-grid">' +
-          '<div><div class="lab">Before · v1</div><div class="media" style="min-height:150px">shelf intro</div></div>' +
-          '<div><div class="lab" style="color:var(--blue-hi)">After · v2</div><div class="media" style="min-height:150px;border-color:var(--blue-line)">texture-first</div></div>' +
-        '</div>';
-    }
-  });
-
-  /* Revert */
-  document.getElementById('cvRevert').addEventListener('click', function () {
-    canvas.innerHTML = '<div class="media tall"><span class="pill">current · v1</span>back to original</div>';
-    document.querySelectorAll('.canvas-body .vpill').forEach(function (p, i) {
-      p.classList.toggle('on', i === 0);
-    });
-    var line = document.createElement('div');
-    line.className = 'sys-line';
-    line.innerHTML = '<span class="ln"></span> ↩ Reverted to v1 · original <span class="ln"></span>';
-    thread.appendChild(line); scroll();
-  });
-
-  /* composer: send a message, get a canned reply */
-  var REPLIES = [
-    'Good call. I’d still lead with motion in the first frame — the texture shot reads best as a 0.5s push-in.',
-    'That works. Keep the caption to one line so it clears the UI on Reels.',
-    'Noted. Want me to regenerate with that change and drop a v3 in the canvas?',
-    'The midday slot is the bigger lever here — same creative, 12–2pm, usually +1–2pt engagement.'
-  ];
-  var r = 0;
-  document.getElementById('cvComposer').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var input = document.getElementById('cvInput'), text = input.value.trim();
-    if (!text) return;
-    var u = document.createElement('div');
-    u.className = 'msg user';
-    u.innerHTML = '<div class="who">You</div><div class="bubble"></div>';
-    u.querySelector('.bubble').textContent = text;
-    thread.appendChild(u); input.value = ''; scroll();
-
-    var pending = document.createElement('div');
-    pending.className = 'msg ai';
-    pending.innerHTML = '<div class="who">Copilot</div><div class="bubble">…</div>';
-    thread.appendChild(pending); scroll();
-    setTimeout(function () {
-      pending.querySelector('.bubble').textContent = REPLIES[r++ % REPLIES.length];
-      scroll();
-    }, 700);
-  });
-})();
-</script>
+<script src="assets/copilot.js"></script>
 </body>
 </html>

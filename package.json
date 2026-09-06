@@ -1,0 +1,11 @@
+{
+  "name": "admindly",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Admindly — marketing site + interactive product demo with a Gemini-backed Creative Copilot",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "dev:api": "vercel dev"
+  }
+}
