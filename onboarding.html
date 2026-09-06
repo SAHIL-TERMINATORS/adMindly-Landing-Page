@@ -63,7 +63,6 @@
       <div class="grid g-2" id="obConnect">
         <!-- cards injected by the script below -->
         <div class="connect-card"><span class="pf ig">IG</span><div style="font-weight:600;font-size:13px">Instagram</div><span class="chip warn">Not connected</span><button class="btn primary sm block" data-conn="instagram" type="button">Connect Instagram</button></div>
-        <div class="connect-card"><span class="pf fb">FB</span><div style="font-weight:600;font-size:13px">Facebook</div><span class="chip warn">Not connected</span><button class="btn primary sm block" data-conn="facebook" type="button">Connect Facebook</button></div>
         <div class="connect-card"><span class="pf tt">TT</span><div style="font-weight:600;font-size:13px">TikTok</div><span class="chip warn">Not connected</span><button class="btn primary sm block" data-conn="tiktok" type="button">Connect TikTok</button></div>
         <div class="connect-card"><span class="pf yt">YT</span><div style="font-weight:600;font-size:13px">YouTube</div><span class="chip warn">Not connected</span><button class="btn primary sm block" data-conn="youtube" type="button">Connect YouTube</button></div>
       </div>
@@ -82,9 +81,9 @@
   var meta = document.querySelector('meta[name="admindly:api-base"]');
   var base = (meta && meta.content || '').replace(/\/$/, '');
   var grid = document.getElementById('obConnect');
-  var LABELS = { instagram:'Instagram', facebook:'Facebook', youtube:'YouTube', tiktok:'TikTok' };
-  var PF = { instagram:'ig', facebook:'fb', youtube:'yt', tiktok:'tt' };
-  var DESC = { instagram:'Reach, engagement, follower growth', facebook:'Page insights, post performance',
+  var LABELS = { instagram:'Instagram', youtube:'YouTube', tiktok:'TikTok' };
+  var PF = { instagram:'ig', youtube:'yt', tiktok:'tt' };
+  var DESC = { instagram:'Reach, engagement, follower growth',
                youtube:'Views, retention, subscribers', tiktok:'Video views, shares, watch time' };
 
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
