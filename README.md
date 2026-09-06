@@ -24,10 +24,10 @@ scripted replies without it.
 | `auth.html` | Authentication | Login / signup toggle, SSO placeholders, field-error state |
 | `onboarding.html` | Onboarding | Role + category, then OAuth account connection |
 | `home.html` | Home / app shell | Navigation hub, connection status, quick links |
-| `chat.html` | Creative Copilot | Split thread + canvas; **live Gemini** replies + generated suggestion cards (scripted fallback), before/after, revert, apply-edit |
-| `library.html` | Creative Library | Filter by type / "edited by Copilot", grid ↔ list, version history |
-| `monitoring.html` | Monitoring Dashboard | 30 / 60 / 90-day switch redraws the KPI strip and trend chart; connected / not-connected |
-| `competitors.html` | Competitor & Market Analysis | Click a leaderboard row to load that competitor's breakdown; "Trending now" |
+| `chat.html` | Creative Copilot | Split thread + canvas; **live Gemini** replies + generated suggestions (scripted fallback); **Creative Library panel** to switch the creative in focus; per-creative **Preview / Edit / Apply** (+ Revert); accepts `?creative=<id>` and `?brief=<text>` |
+| `library.html` | Creative Library | Filter by type / "edited by Copilot", grid ↔ list, version history; "Open in Copilot" deep-links `chat.html?creative=<id>` |
+| `monitoring.html` | Monitoring Dashboard | OAuth-per-platform connect cards; 30 / 60 / 90-day switch redraws the KPI strip + trend chart; **AI-generated** "why the change" note |
+| `competitors.html` | Competitor & Market Analysis | Click a leaderboard row → that competitor's breakdown; "Trending now"; "Apply this trend" bridges to `chat.html?brief=…` |
 | `calendar.html` | Content Calendar | Month ↔ list view, month navigation with empty states |
 | `notifications.html` | Notifications Center | Category filter, "mark all read" clears unread + nav badges |
 
@@ -36,6 +36,28 @@ The four working modules share a persistent left nav + top bar, injected by
 interaction is scripted **except** the Creative Copilot chat and the AI
 explainer notes on Monitoring / Home, which call Gemini when the proxy is
 configured (and fall back to scripted text when it isn't).
+
+### Module map
+
+```
+ Influencer / PM / co-founder
+        │
+   Auth (SSO)  →  Roles & Category  →  Dashboard shell
+                                            │
+        ┌───────────────────────────────────┼───────────────────────────────┐
+        ▼                                   ▼                               ▼
+  Chat module                       Monitoring module               Competitors module
+  ───────────                       ─────────────────               ──────────────────
+  Chat interface (Gemini)           OAuth cards per platform         Leaderboard
+   ├─ Creative Library panel         ├─ Charts (engagement/time)     Trending
+   └─ per-creative actions:          ├─ Per-creative KPI table       Competitor analysis
+      Preview · Edit · Apply         └─ AI-generated notes            │
+                                                                     └─ "Apply this trend"
+                                                                        → chat.html?brief=…
+```
+
+`competitors → chat` (`?brief=`) and `library → chat` (`?creative=`) are the
+cross-module links that close the loop back to the creative.
 
 ## Theme — light + dark
 
