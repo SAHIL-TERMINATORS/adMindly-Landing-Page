@@ -49,9 +49,10 @@
 
       <p class="hint err" id="authError" hidden></p>
 
-      <div class="sso-row">
-        <button class="btn" id="googleBtn" type="button"><svg viewBox="0 0 24 24" style="stroke:none;fill:currentColor"><circle cx="12" cy="12" r="9"/></svg> Continue with Google</button>
-        <button class="btn" type="button" disabled title="Coming soon">SSO</button>
+      <div class="sso-row" style="flex-direction:column">
+        <button class="btn block" id="loginGoogle" type="button"><svg viewBox="0 0 24 24" style="stroke:none;fill:currentColor"><circle cx="12" cy="12" r="9"/></svg> Continue with Google</button>
+        <button class="btn block" id="loginInstagram" type="button"><span class="pf ig" style="width:18px;height:18px;font-size:0;border-radius:5px"></span> Continue with Instagram</button>
+        <button class="btn block" id="loginFacebook" type="button"><span class="pf fb" style="width:18px;height:18px;font-size:0;border-radius:5px"></span> Continue with Facebook</button>
       </div>
       <div class="divider">OR</div>
 
@@ -87,17 +88,31 @@
     });
   });
 
-  var g = document.getElementById('googleBtn');
-  if (g) g.addEventListener('click', function () {
-    g.textContent = 'Redirecting…'; g.disabled = true;
-    location.href = base + '/api/login/google/start?return=/onboarding.html';
-  });
+  function go(url) { return function () { location.href = base + url; }; }
+  var gb = document.getElementById('loginGoogle');
+  if (gb) gb.addEventListener('click', go('/api/login/google/start?return=/auth.html'));
+  var ib = document.getElementById('loginInstagram');
+  if (ib) ib.addEventListener('click', go('/api/auth/instagram/start?return=/auth.html'));
+  var fb = document.getElementById('loginFacebook');
+  if (fb) fb.addEventListener('click', go('/api/auth/facebook/start?return=/auth.html'));
+
+  // grey out providers that aren't set up on this deployment
+  fetch(base + '/api/social/insights', { credentials: 'include' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      if (!j || !j.providers) return;
+      [['instagram', ib], ['facebook', fb]].forEach(function (pair) {
+        var p = j.providers[pair[0]];
+        if (p && !p.configured && pair[1]) { pair[1].disabled = true; pair[1].title = 'Not set up'; }
+      });
+    }).catch(function () {});
 
   var q = new URLSearchParams(location.search);
   var errEl = document.getElementById('authError');
-  if (q.get('login_error') && errEl) {
+  var msg = q.get('login_error') || (q.get('social_error') && q.get('social_error'));
+  if (msg && errEl) {
     errEl.hidden = false;
-    errEl.textContent = 'Google sign-in failed — ' + q.get('login_error');
+    errEl.textContent = 'Sign-in failed — ' + msg;
   }
 
   // already signed in? skip straight to onboarding

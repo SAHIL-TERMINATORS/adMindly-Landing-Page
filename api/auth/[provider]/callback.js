@@ -41,6 +41,17 @@ module.exports = async function handler(req, res) {
       no_page: tok.no_page || false,
       expires_at: Date.now() + (tok.expires_in || S.SESS_TTL) * 1000
     });
+
+    // First social connection doubles as sign-in
+    const sess = await S.loadSession(req);
+    if (!sess.user) {
+      const label = tok.username || provider.label;
+      await S.saveUser(req, res, {
+        name: label, email: null, picture: null,
+        provider: name, at: Date.now()
+      });
+    }
+
     res.statusCode = 302;
     res.setHeader('Location', back + (ret.includes('?') ? '&' : '?') + 'social_connected=' + name);
     res.end();
