@@ -86,8 +86,8 @@
             <div class="media" style="min-height:74px;font-size:9px">carousel · 210k</div>
           </div>
 
-          <a class="btn primary block" href="chat.html"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Apply this trend to my next creative</a>
-          <p class="hint" style="margin-top:8px">Bridge action — opens the Copilot with "founder-POV, spoken-question hook" pre-loaded as the brief.</p>
+          <a class="btn primary block" id="cBridge" href="chat.html?brief=founder-POV%20reel%2C%20spoken-question%20hook%2C%20texture-first%20opening%2C%20no%20brand%20name%20until%200%3A05"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Apply this trend to my next creative</a>
+          <p class="hint" style="margin-top:8px">Bridge action — opens the Copilot with this competitor's winning pattern pre-loaded as the brief.</p>
         </div>
       </div>
 
@@ -101,34 +101,40 @@
 /* prototype: click / Enter on a leaderboard row loads that competitor into the detail card */
 (function () {
   var COMP = {
-    glow:   { name:'Glow Theory', rank:'#1 · Indie skincare', metric:'+18% / mo', good:true, notes:[
+    glow:   { name:'Glow Theory', rank:'#1 · Indie skincare', metric:'+18% / mo', good:true,
+      brief:'founder-POV reel, spoken-question hook, texture-first opening, no brand name until 0:05', notes:[
       ['Trending format','4 of last 6 posts are founder-POV reels shot handheld, face in frame within 1s.'],
       ['Posting cadence','5×/week, consistently 12–1pm. Reels only on Tue/Thu.'],
       ['Standout creative','"why our serum pills" reel: 1.2M views, 9.1% eng. Opens on a problem, not the product.'],
       ['Attributed factors','hook is a spoken question · captions are 1 line · no on-screen brand name until 0:05.']]},
-    rue:    { name:'Rue & Ren', rank:'#2 · Clean beauty', metric:'5.9% eng.', good:true, notes:[
+    rue:    { name:'Rue & Ren', rank:'#2 · Clean beauty', metric:'5.9% eng.', good:true,
+      brief:'ingredient-breakdown carousel, 6–8 slides, question on slide 1, muted palette, text-only cover', notes:[
       ['Trending format','Ingredient-breakdown carousels — 6–8 slides, one claim per slide.'],
       ['Posting cadence','4×/week, mornings 8–9am. Carousels Mon/Wed/Fri.'],
       ['Standout creative','"what’s actually in your toner" carousel: 210k reach, 6.4% saves.'],
       ['Attributed factors','slide 1 is a question · muted palette · text-only covers.']]},
-    haldi:  { name:'Haldi Co.', rank:'#3 · Ayurvedic skincare', metric:'5.1% eng.', good:true, notes:[
+    haldi:  { name:'Haldi Co.', rank:'#3 · Ayurvedic skincare', metric:'5.1% eng.', good:true,
+      brief:'ritual / GRWM reel with a first-language voiceover, routine-led not hook-led', notes:[
       ['Trending format','Ritual / GRWM reels with a voiceover in the founder’s first language.'],
       ['Posting cadence','3×/week, evenings. Consistent Sunday "week ahead" post.'],
       ['Standout creative','morning-ritual reel: 480k views, strong completion rate.'],
       ['Attributed factors','slow first frame works here — audience watches for the routine, not a hook.']]},
-    lumen:  { name:'Lumen Skincare', rank:'#4 · Indie skincare (you)', metric:'3.1% eng.', good:false, notes:[
+    lumen:  { name:'Lumen Skincare', rank:'#4 · Indie skincare (you)', metric:'3.1% eng.', good:false,
+      brief:'reorder hooks texture-first, cut shelf intros, test a founder-POV reel, move 2 posts/week to 12–2pm', notes:[
       ['Where you’re strong','Texture close-ups outperform your category average by 2.1pt.'],
       ['Where you’re losing','Shelf / product-on-surface intros — 1.6% eng vs 4%+ for face-first openers.'],
       ['Cadence gap','3×/week vs the top 3 averaging 4–5×. Evening slots underperform your midday posts.'],
       ['Next move','Reorder hooks texture-first, move 2 posts/week to 12–2pm, test a founder-POV reel.']]},
-    solene: { name:'Solene', rank:'#5 · Minimalist skincare', metric:'2.8% eng.', good:false, notes:[
+    solene: { name:'Solene', rank:'#5 · Minimalist skincare', metric:'2.8% eng.', good:false,
+      brief:'add motion and a viewer question to the static single-product look; tighten posting cadence', notes:[
       ['Trending format','Static single-product shots with large type. Low motion, low engagement.'],
       ['Posting cadence','2×/week, irregular. Long gaps hurt reach.'],
       ['Standout creative','none breaking out this period — flattest feed in the top 5.'],
       ['Attributed factors','aesthetic is strong but the feed asks nothing of the viewer.']]}
   };
   var name = document.getElementById('cName'), rank = document.getElementById('cRank'),
-      metric = document.getElementById('cMetric'), notes = document.getElementById('cNotes');
+      metric = document.getElementById('cMetric'), notes = document.getElementById('cNotes'),
+      bridge = document.getElementById('cBridge');
   function load(key, row) {
     var c = COMP[key]; if (!c) return;
     document.querySelectorAll('.lb-row[data-comp]').forEach(function (r) { r.classList.toggle('is-sel', r === row); });
@@ -137,6 +143,7 @@
     notes.innerHTML = c.notes.map(function (n) {
       return '<div class="note-strip" style="margin:0"><b>' + n[0] + '</b> — ' + n[1] + '</div>';
     }).join('');
+    if (bridge && c.brief) bridge.href = 'chat.html?brief=' + encodeURIComponent(c.brief);
   }
   document.querySelectorAll('.lb-row[data-comp]').forEach(function (row) {
     row.addEventListener('click', function () { load(row.getAttribute('data-comp'), row); });
