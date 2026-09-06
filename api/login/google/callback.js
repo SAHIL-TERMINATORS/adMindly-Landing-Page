@@ -17,11 +17,14 @@ module.exports = async function handler(req, res) {
 
   const u = new URL(req.url, S.appBase(req));
   const code = u.searchParams.get('code');
-  const err = u.searchParams.get('error');
+  const err = u.searchParams.get('error_description') || u.searchParams.get('error');
   const state = u.searchParams.get('state');
   if (err) return bail(err);
-  if (!code) return bail('no code returned');
-  if (!state || state !== cookies['login_state']) return bail('state mismatch — try again');
+  if (!code) {
+    var got = [...u.searchParams.keys()].join(',') || 'nothing';
+    return bail('no code (Google sent: ' + got + ') — add your email as a Test user on the OAuth consent screen, then retry');
+  }
+  if (!state || state !== cookies['login_state']) return bail('state mismatch — clear this site\'s cookies and retry');
 
   try {
     const t = await S.httpJson('https://oauth2.googleapis.com/token', {
