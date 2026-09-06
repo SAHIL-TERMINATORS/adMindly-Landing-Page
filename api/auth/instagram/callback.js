@@ -8,10 +8,13 @@ module.exports = async function handler(req, res) {
   const code = u.searchParams.get('code');
   const state = u.searchParams.get('state');
   const err = u.searchParams.get('error_description') || u.searchParams.get('error');
-  const cookieState = ig.parseCookies(req)['ig_oauth_state'];
-  const back = ig.appBase(req) + '/monitoring.html';
+  const cookies = ig.parseCookies(req);
+  const cookieState = cookies['ig_oauth_state'];
+  const ret = /^\/[A-Za-z0-9_\-./]*$/.test(cookies['ig_return'] || '') ? cookies['ig_return'] : '/monitoring.html';
+  const back = ig.appBase(req) + ret;
 
   ig.setCookie(res, 'ig_oauth_state', '', 0); // clear it
+  ig.setCookie(res, 'ig_return', '', 0);
 
   function bail(msg) {
     res.statusCode = 302;

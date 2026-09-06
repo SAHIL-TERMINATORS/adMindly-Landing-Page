@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta name="admindly:api-base" content="">
 <script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -63,14 +64,14 @@
         <div class="connect-card">
           <span class="pf ig">IG</span>
           <div><div style="font-weight:600;font-size:13.5px">Instagram</div><div class="mono mute" style="font-size:11px">Reach, engagement, follower growth</div></div>
-          <span class="chip warn">Not connected</span>
-          <button class="btn primary sm block">Connect with OAuth</button>
+          <span class="chip warn" id="obIgStatus">Not connected</span>
+          <button class="btn primary sm block" id="obIgConnect" type="button">Connect with OAuth</button>
         </div>
         <div class="connect-card">
           <span class="pf fb">FB</span>
           <div><div style="font-weight:600;font-size:13.5px">Facebook</div><div class="mono mute" style="font-size:11px">Page insights, post performance</div></div>
-          <span class="chip warn">Not connected</span>
-          <button class="btn primary sm block">Connect with OAuth</button>
+          <span class="chip">Coming soon</span>
+          <button class="btn sm block" type="button" disabled>Connect</button>
         </div>
         <div class="connect-card">
           <span class="pf tt">TT</span>
@@ -94,5 +95,34 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
+<script>
+/* onboarding: wire the Instagram "Connect" button to the real OAuth flow */
+(function () {
+  var meta = document.querySelector('meta[name="admindly:api-base"]');
+  var base = (meta && meta.content || '').replace(/\/$/, '');
+  var btn = document.getElementById('obIgConnect');
+  var status = document.getElementById('obIgStatus');
+
+  if (btn) btn.addEventListener('click', function () {
+    location.href = base + '/api/auth/instagram/start?return=/onboarding.html';
+  });
+
+  var q = new URLSearchParams(location.search);
+  if (q.get('ig_error') && status) {
+    status.textContent = 'Failed: ' + q.get('ig_error');
+    status.className = 'chip bad';
+  }
+
+  fetch(base + '/api/instagram/insights', { credentials: 'include' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (d && d.connected && status) {
+        status.textContent = 'Connected · @' + (d.username || 'instagram');
+        status.className = 'chip good';
+        if (btn) { btn.textContent = 'Reconnect'; btn.classList.remove('primary'); }
+      }
+    }).catch(function () {});
+})();
+</script>
 </body>
 </html>
