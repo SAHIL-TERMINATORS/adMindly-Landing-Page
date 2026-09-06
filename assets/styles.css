@@ -146,6 +146,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 html,body{max-width:100%;overflow-x:clip}
+[hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 
 body{
@@ -298,11 +299,10 @@ button{font-family:inherit}
 @media (max-width:1080px){.g-4{grid-template-columns:repeat(2,minmax(0,1fr))}.g-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:720px){.g-2,.g-3,.g-4{grid-template-columns:1fr}}
 
-/* library list view */
-#libGrid.list{grid-template-columns:1fr;max-width:660px}
-#libGrid.list .card{display:grid;grid-template-columns:160px minmax(0,1fr);column-gap:16px;align-items:center}
-#libGrid.list .card .media{grid-row:1/-1;align-self:stretch;min-height:96px}
-@media (max-width:520px){#libGrid.list .card{grid-template-columns:1fr}#libGrid.list .card .media{grid-row:auto}}
+/* library list view — one card per row, compact preview */
+#libGrid.list{grid-template-columns:1fr;max-width:760px}
+#libGrid.list .card .media.tall{min-height:120px}
+#libGrid.list .card{display:flex;flex-direction:column}
 
 .card{
   background:var(--surface);
