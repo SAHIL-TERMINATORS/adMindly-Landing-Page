@@ -80,9 +80,11 @@ retheme, change the token values — not the component rules.
 - `assets/app.js` — sidebar/topbar injection, theme toggle, mobile nav drawer,
   shared tab/segment/chip behaviour
 - `assets/copilot.js` — Creative Copilot chat client + Gemini calls + fallback
+- `assets/monitor.js` — Monitoring: Instagram connect + real / sample metrics
 - `api/chat.js` — Gemini proxy (Vercel serverless function)
-- `worker/` — the same proxy as a Cloudflare Worker (`worker.js`, `wrangler.toml`)
-- `.env.example` — the env vars the proxy needs
+- `api/_ig.js` + `api/auth/instagram/*` + `api/instagram/insights.js` — Instagram OAuth + data
+- `worker/` — the chat proxy as a Cloudflare Worker (`worker.js`, `wrangler.toml`)
+- `.env.example` — every env var the backends read
 - Fonts: Sora + IBM Plex Sans + IBM Plex Mono (Google Fonts)
 - `favicon.svg`
 
@@ -137,23 +139,62 @@ npx wrangler secret put GEMINI_API_KEY
 Then set every page's meta to the Worker URL:
 `<meta name="admindly:api-base" content="https://admindly-proxy.<you>.workers.dev">`
 
-### Env vars
-
-| var | required | default | notes |
-|---|---|---|---|
-| `GEMINI_API_KEY` | yes | – | from https://aistudio.google.com/apikey |
-| `GEMINI_MODEL` | no | `gemini-2.5-flash` | if the response says "model not found", set a current id |
-| `ALLOWED_ORIGINS` | no | `*` | comma-separated origin allowlist for the proxy |
+(Cloudflare covers only the chat. Instagram Monitoring below needs the Vercel
+functions or an equivalent Node backend.)
 
 For real traffic, add rate-limiting at the proxy (Vercel/Cloudflare both have
 KV / edge options) — a public endpoint with your key is otherwise open to abuse.
 
+## Live Monitoring (Instagram)
+
+The Monitoring dashboard shows **sample data** until an Instagram account is
+connected. "Connect Instagram" runs a real OAuth flow (Instagram API with
+Instagram Login); the token is stored server-side in Upstash Redis and never
+reaches the browser. If the backend isn't deployed, Monitoring stays on sample
+data with a "sample data" tag.
+
+### Endpoints (Vercel functions)
+
+```
+GET  /api/auth/instagram/start      → redirect to Instagram consent
+GET  /api/auth/instagram/callback   → code → long-lived token → session cookie
+POST /api/auth/instagram/logout     → drop the token
+GET  /api/instagram/insights?window=30|60|90
+     → { connected, username, reach, engagement_rate, follower_growth,
+         top_post, media:[…], chart:[…] }  |  { connected:false }
+```
+
+### Meta app setup
+
+1. developers.facebook.com → **Create App** → type **Business**
+2. Add product **Instagram** → **API setup with Instagram login**
+3. **Business login settings** → add OAuth redirect URI
+   `https://<your-domain>/api/auth/instagram/callback` → copy the
+   **Instagram app ID** and **app secret**
+4. The Instagram account must be **Business/Creator**, and added under
+   **App roles → Instagram Tester** until Meta approves the app for public use
+   (App Review + business verification).
+
+### Env vars
+
+| var | for | notes |
+|---|---|---|
+| `GEMINI_API_KEY` | chat | https://aistudio.google.com/apikey |
+| `GEMINI_MODEL` | chat | default `gemini-2.5-flash` |
+| `IG_APP_ID` / `IG_APP_SECRET` | monitoring | Meta app → Instagram → Business login settings |
+| `IG_REDIRECT_URI` | monitoring | optional; defaults to `https://<host>/api/auth/instagram/callback` (must match the Meta app) |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | monitoring | upstash.com → Redis DB → REST |
+| `ALLOWED_ORIGINS` | both | comma-separated allowlist, default `*` |
+
+Everything degrades gracefully: with none of these set, the whole site works as
+static with scripted chat and sample metrics.
+
 ## Run
 
 ```bash
-python3 -m http.server 8000        # static only — chat runs in demo mode
-# or, with the live Copilot:
-vercel dev                         # needs GEMINI_API_KEY in .env.local
+python3 -m http.server 8000        # static only — chat + monitoring run on sample data
+# or, with the live backends:
+vercel dev                         # reads .env.local (see .env.example)
 ```
 
 ## Not final
