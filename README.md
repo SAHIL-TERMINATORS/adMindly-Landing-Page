@@ -1,44 +1,73 @@
-# Admindly — Prototype (black & blue theme)
+# Admindly
 
-Static, multi-page prototype for the **Admindly** agentic copilot suite for marketers, brands and influencers, built from `Admindly_Prototype_Brief.pdf` (v1).
+Marketing site **and** interactive product demo for **Admindly** — an agentic
+copilot suite for marketers, brands and influencers (creative feedback,
+performance monitoring, competitor intelligence, behind one login).
 
-Each screen from the brief is its own page. The four working modules share a persistent left nav (injected by `assets/app.js`).
+Plain HTML + one CSS file + one JS file. No build step, no dependencies.
+Deploys as-is to GitHub Pages from the repo root.
 
-## Pages
+## Two parts
 
-| File | Screen | Notes |
+| | Entry | What it is |
 |---|---|---|
-| `index.html` | Flow map / overview | Entry point — links to every screen |
-| `auth.html` | 01 · Authentication | Login/signup toggle, SSO placeholders, field-error + submitting states |
-| `onboarding.html` | 02 · Onboarding | Role + category, then OAuth account connection |
-| `home.html` | 03 · Home / app shell | Navigation hub, connection status, quick links |
-| `chat.html` | 04 · Creative Copilot | **Core.** Split-pane thread + canvas; states: empty, suggestion given, edit applied (before/after), reverted, generating |
-| `library.html` | 05 · Creative Library | Grid of originals + AI-edited versions, version history |
-| `monitoring.html` | 06 · Monitoring Dashboard | 30/60/90 switcher, KPI strip, trend chart, per-creative table, AI explainer note; connected + not-connected |
-| `competitors.html` | 07 · Competitor & Market Analysis | Category selector, leaderboard, competitor detail, "Trending now", bridge to Copilot |
-| `calendar.html` | 08 · Content Calendar | Month grid, schedule approved creatives (stub) |
-| `notifications.html` | 09 · Notifications Center | Underperformance / competitor / trend alerts, approvals stub |
+| **Marketing site** | `index.html` | Full landing page — hero, feature sections, how-it-works, testimonials, pricing, FAQ, footer. |
+| **Interactive demo** | `prototype.html` | Flow map / hub linking all nine app screens. |
+
+### App screens (the demo)
+
+| File | Screen | Now does |
+|---|---|---|
+| `auth.html` | Authentication | Login / signup toggle, SSO placeholders, field-error state |
+| `onboarding.html` | Onboarding | Role + category, then OAuth account connection |
+| `home.html` | Home / app shell | Navigation hub, connection status, quick links |
+| `chat.html` | Creative Copilot | Split thread + canvas; composer replies, before/after, revert, apply-edit |
+| `library.html` | Creative Library | Filter by type / "edited by Copilot", grid ↔ list, version history |
+| `monitoring.html` | Monitoring Dashboard | 30 / 60 / 90-day switch redraws the KPI strip and trend chart; connected / not-connected |
+| `competitors.html` | Competitor & Market Analysis | Click a leaderboard row to load that competitor's breakdown; "Trending now" |
+| `calendar.html` | Content Calendar | Month ↔ list view, month navigation with empty states |
+| `notifications.html` | Notifications Center | Category filter, "mark all read" clears unread + nav badges |
+
+The four working modules share a persistent left nav + top bar, injected by
+`assets/app.js`. All app interactions are scripted prototype behaviour — no
+backend, dummy auth, sample data throughout.
+
+## Theme — light + dark
+
+Dark is the signature look. Light is a full, first-class alternate.
+
+- **No stored choice** → follows the OS (`prefers-color-scheme`).
+- **Header / corner toggle** overrides it and is remembered (`localStorage`
+  key `admindly-theme`).
+- A tiny inline `<head>` script applies the saved theme before first paint,
+  so there's no flash.
+
+All colours are painted through CSS custom properties in `assets/styles.css`:
+the light palette is defined on `:root`; the dark palette overrides it under
+`@media (prefers-color-scheme: dark)` and `:root[data-theme="dark"]`. To
+retheme, change the token values — not the component rules.
 
 ## Stack
 
-Plain HTML + one CSS file + one JS file. No build step, no dependencies.
-Fonts: Sora + IBM Plex Sans + IBM Plex Mono (Google Fonts).
+- `assets/styles.css` — the whole design system, both themes
+- `assets/app.js` — sidebar/topbar injection, theme toggle, mobile nav drawer,
+  shared tab/segment/chip behaviour
+- Fonts: Sora + IBM Plex Sans + IBM Plex Mono (Google Fonts)
+- `favicon.svg`
 
-- `assets/styles.css` — single committed dark theme (`--bg` near-black, `--blue #2F6BFF` accent)
-- `assets/app.js` — injects the sidebar + topbar into pages with `data-page`, plus small prototype toggles
+> Earlier revisions linked `assets/styles.css` / `assets/app.js` while the
+> files sat in the repo root, so every page loaded unstyled. The files now
+> live in `assets/` to match.
 
 ## Run
 
-Open `index.html` in a browser, or serve the folder:
-
 ```bash
 python3 -m http.server 8000
+# open http://localhost:8000
 ```
-
-Deploys as-is to GitHub Pages (root).
 
 ## Not final
 
-Placeholder copy and sample data throughout. Theme colours are a stand-in for the
-supplied black & blue template — swap the tokens at the top of `assets/styles.css`.
-Out of scope for the prototype: a full in-app photo/video editor.
+Placeholder copy and sample data throughout — pricing, metrics, competitor
+numbers and testimonials are illustrative. Out of scope: a full in-app
+photo/video editor (edit-and-regenerate through chat is the differentiator).
