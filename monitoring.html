@@ -135,54 +135,6 @@
 </div>
 <script src="assets/app.js"></script>
 <script src="assets/copilot.js"></script>
-<script>
-/* prototype: 30 / 60 / 90-day switch swaps the KPI strip and redraws the trend */
-(function () {
-  var DATA = {
-    '30d': {
-      sub: 'Instagram · 30 days',
-      kpi: [['92.6k','▲ 7% vs prev','up'], ['3.4%','▲ 0.2pt vs prev','up'], ['+1,180','▲ 5%','up'], ['texture_closeup_reel','▲ 7.1% eng.','up']],
-      a: '8,120 70,104 140,96 210,110 280,72 350,66 420,58 490,80 560,64 632,52',
-      b: '8,150 70,148 140,150 210,146 280,150 350,148 420,150 490,150 560,148 632,150',
-      pt: [420,58], peak: 'peak: midday test'
-    },
-    '60d': {
-      sub: 'Instagram · 60 days',
-      kpi: [['184.2k','▲ 12% vs prev','up'], ['3.1%','▼ 0.4pt vs prev','down'], ['+2,410','▲ 8%','up'], ['texture_closeup_reel','▲ 6.8% eng.','up']],
-      a: '8,132 70,120 140,126 210,88 280,96 350,60 420,104 490,120 560,112 632,96',
-      b: '8,150 70,146 140,140 210,138 280,132 350,128 420,140 490,150 560,150 632,144',
-      pt: [350,60], peak: 'peak: reordered hook'
-    },
-    '90d': {
-      sub: 'Instagram · 90 days',
-      kpi: [['268.9k','▲ 9% vs prev','up'], ['2.8%','▼ 0.6pt vs prev','down'], ['+3,900','▲ 6%','up'], ['founder_pov_post','▲ 5.4% eng.','up']],
-      a: '8,150 70,132 140,120 210,96 280,110 350,72 420,116 490,104 560,128 632,120',
-      b: '8,156 70,150 140,146 210,150 280,144 350,140 420,150 490,150 560,152 632,150',
-      pt: [350,72], peak: 'peak: founder-POV run'
-    }
-  };
-  function toPath(pts) { return 'M' + pts.replace(/ /g, ' L') + ' L632,168 L8,168 Z'; }
-  var svg = document.getElementById('mChart'), sub = document.getElementById('mSub'), kpis = document.getElementById('mKpis');
-  function render(key) {
-    var d = DATA[key]; if (!d) return;
-    sub.textContent = d.sub;
-    svg.querySelector('.area').setAttribute('d', toPath(d.a));
-    svg.querySelector('.line-a').setAttribute('points', d.a);
-    svg.querySelector('.line-b').setAttribute('points', d.b);
-    var pt = svg.querySelector('.pt'); pt.setAttribute('cx', d.pt[0]); pt.setAttribute('cy', d.pt[1]);
-    svg.querySelectorAll('.axis-t')[1].textContent = d.peak;
-    svg.querySelectorAll('.axis-t')[2].textContent = key + ' ago';
-    kpis.querySelectorAll('.kpi').forEach(function (box, i) {
-      box.querySelector('.k-val').textContent = d.kpi[i][0];
-      var delta = box.querySelector('.k-delta');
-      delta.textContent = d.kpi[i][1];
-      delta.className = 'k-delta ' + d.kpi[i][2];
-    });
-  }
-  document.querySelector('.segment[aria-label="Time range"]').addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (b) render(b.textContent.trim());
-  });
-})();
-</script>
+<script src="assets/monitor.js"></script>
 </body>
 </html>
