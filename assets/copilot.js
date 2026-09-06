@@ -135,7 +135,14 @@
       setStatus('live'); scroll();
       if (opts.then) opts.then(data);
     }).catch(function (err) {
-      pending.querySelector('.bubble').textContent = FALLBACK[fb++ % FALLBACK.length];
+      var b = pending.querySelector('.bubble');
+      b.textContent = FALLBACK[fb++ % FALLBACK.length];
+      var tag = document.createElement('div');
+      tag.className = 'hint'; tag.style.marginTop = '4px';
+      tag.textContent = /busy|demand|429|503|unavailable|overload/i.test(err.message || '')
+        ? '⚠ Gemini is busy right now — that was a sample reply. Send again in a moment.'
+        : '⚠ Sample reply (backend unreachable): ' + (err.message || '');
+      b.appendChild(tag);
       setStatus('demo');
       console.warn('[copilot] scripted fallback:', err.message);
       scroll();

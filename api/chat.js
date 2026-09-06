@@ -89,22 +89,32 @@ module.exports = async function handler(req, res) {
     }
   };
 
-  let data;
-  try {
-    const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent`,
-      { method: 'POST', headers: { 'content-type': 'application/json', 'x-goog-api-key': KEY }, body: JSON.stringify(payload) }
-    );
-    data = await r.json().catch(() => ({}));
-    if (!r.ok) {
-      const msg = (data && data.error && data.error.message) || `Gemini HTTP ${r.status}`;
-      return res.status(502).json({
-        error: msg,
-        hint: r.status === 404 ? `Model "${MODEL}" not found — set GEMINI_MODEL to a current id.` : undefined
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent`;
+  let data, lastStatus = 0, lastMsg = '';
+  // Gemini flash models return 503/429 under load — retry a few times with backoff.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt) await new Promise((r) => setTimeout(r, 400 * attempt * attempt));
+    try {
+      const r = await fetch(geminiUrl, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-goog-api-key': KEY },
+        body: JSON.stringify(payload)
       });
+      data = await r.json().catch(() => ({}));
+      lastStatus = r.status;
+      lastMsg = (data && data.error && data.error.message) || `Gemini HTTP ${r.status}`;
+      if (r.ok) break;
+      if (![429, 500, 502, 503, 504].includes(r.status)) break; // non-retryable
+    } catch (e) {
+      lastStatus = 0; lastMsg = 'could not reach Gemini: ' + e.message;
     }
-  } catch (e) {
-    return res.status(502).json({ error: 'could not reach Gemini: ' + e.message });
+  }
+  if (!data || !data.candidates) {
+    return res.status(502).json({
+      error: lastMsg || 'Gemini request failed',
+      hint: lastStatus === 404 ? `Model "${MODEL}" not found — set GEMINI_MODEL to a current id.` : undefined,
+      retryable: [429, 500, 502, 503, 504, 0].includes(lastStatus)
+    });
   }
 
   const raw = ((data.candidates && data.candidates[0] && data.candidates[0].content &&

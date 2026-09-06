@@ -85,19 +85,27 @@ export default {
       }
     };
 
-    let data;
-    try {
-      const r = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-        { method: 'POST', headers: { 'content-type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY }, body: JSON.stringify(payload) }
-      );
-      data = await r.json().catch(() => ({}));
-      if (!r.ok) {
-        const msg = (data && data.error && data.error.message) || `Gemini HTTP ${r.status}`;
-        return json({ error: msg, hint: r.status === 404 ? `Model "${model}" not found — set GEMINI_MODEL.` : undefined }, 502, cors);
-      }
-    } catch (e) {
-      return json({ error: 'could not reach Gemini: ' + e.message }, 502, cors);
+    const gUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+    let data, lastStatus = 0, lastMsg = '';
+    for (let attempt = 0; attempt < 3; attempt++) {
+      if (attempt) await new Promise((r) => setTimeout(r, 400 * attempt * attempt));
+      try {
+        const r = await fetch(gUrl, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
+          body: JSON.stringify(payload)
+        });
+        data = await r.json().catch(() => ({}));
+        lastStatus = r.status;
+        lastMsg = (data && data.error && data.error.message) || `Gemini HTTP ${r.status}`;
+        if (r.ok) break;
+        if (![429, 500, 502, 503, 504].includes(r.status)) break;
+      } catch (e) { lastStatus = 0; lastMsg = 'could not reach Gemini: ' + e.message; }
+    }
+    if (!data || !data.candidates) {
+      return json({ error: lastMsg || 'Gemini request failed',
+        hint: lastStatus === 404 ? `Model "${model}" not found — set GEMINI_MODEL.` : undefined,
+        retryable: [429, 500, 502, 503, 504, 0].includes(lastStatus) }, 502, cors);
     }
 
     const raw = ((data.candidates && data.candidates[0] && data.candidates[0].content &&
