@@ -102,8 +102,38 @@
         '<div class="search">' + svg(ICONS.search) + '<span>Search creatives, competitors…</span></div>' +
         themeToggleBtn() +
         '<a class="icon-btn" href="notifications.html" aria-label="Notifications">' + svg(ICONS.alerts) + '<span class="badge">3</span></a>' +
-        '<span class="avatar">SJ</span>' +
+        '<button class="avatar" id="tbAvatar" type="button" title="Account">SJ</button>' +
       '</div>';
+  }
+
+  var API_BASE = (function () {
+    var m = document.querySelector('meta[name="admindly:api-base"]');
+    return (m && m.content || '').replace(/\/$/, '');
+  })();
+
+  function initials(name) {
+    return (name || '').trim().split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase() || 'SJ';
+  }
+  function wireUser() {
+    fetch(API_BASE + '/api/me', { credentials: 'include' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var av = document.getElementById('tbAvatar');
+        if (!av) return;
+        if (d && d.authenticated) {
+          av.textContent = initials(d.user.name);
+          av.title = d.user.name + ' · click to sign out';
+          av.addEventListener('click', function () {
+            if (!confirm('Sign out ' + d.user.email + '?')) return;
+            fetch(API_BASE + '/api/me', { method: 'POST', credentials: 'include' })
+              .finally(function () { location.href = 'auth.html'; });
+          });
+          document.querySelectorAll('[data-user-name]').forEach(function (el) { el.textContent = d.user.name.split(' ')[0]; });
+          document.querySelectorAll('[data-user-email]').forEach(function (el) { el.textContent = d.user.email; });
+        } else {
+          av.addEventListener('click', function () { location.href = 'auth.html'; });
+        }
+      }).catch(function () {});
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -127,6 +157,7 @@
       top.className = 'topbar';
       top.innerHTML = buildTopbar(title);
       main.insertBefore(top, main.firstChild);
+      wireUser();
     }
 
     /* mobile drawer */

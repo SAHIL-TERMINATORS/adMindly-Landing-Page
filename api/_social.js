@@ -72,18 +72,21 @@ function cors(res, origin) {
 /* ---------- session ---------- */
 async function loadSession(req) {
   const id = parseCookies(req)[COOKIE];
-  if (!id) return { id: null, providers: {} };
+  if (!id) return { id: null, providers: {}, user: null };
   let raw;
-  try { raw = await kv.get('social:sess:' + id); } catch (e) { return { id, providers: {} }; }
-  if (!raw) return { id, providers: {} };
-  try { const p = JSON.parse(raw); return { id, providers: p.providers || {} }; }
-  catch (e) { return { id, providers: {} }; }
+  try { raw = await kv.get('social:sess:' + id); } catch (e) { return { id, providers: {}, user: null }; }
+  if (!raw) return { id, providers: {}, user: null };
+  try { const p = JSON.parse(raw); return { id, providers: p.providers || {}, user: p.user || null }; }
+  catch (e) { return { id, providers: {}, user: null }; }
+}
+async function persist(id, sess) {
+  await kv.setex('social:sess:' + id, SESS_TTL, JSON.stringify({ providers: sess.providers, user: sess.user }));
 }
 async function saveProvider(req, res, provider, data) {
   const sess = await loadSession(req);
   const id = sess.id || rand();
   sess.providers[provider] = { ...data, connected_at: Date.now() };
-  await kv.setex('social:sess:' + id, SESS_TTL, JSON.stringify({ providers: sess.providers }));
+  await persist(id, sess);
   setCookie(res, COOKIE, id, SESS_TTL);
   return id;
 }
@@ -91,12 +94,21 @@ async function removeProvider(req, res, provider) {
   const sess = await loadSession(req);
   if (!sess.id) return;
   delete sess.providers[provider];
-  if (Object.keys(sess.providers).length) {
-    await kv.setex('social:sess:' + sess.id, SESS_TTL, JSON.stringify({ providers: sess.providers }));
-  } else {
-    await kv.del('social:sess:' + sess.id);
-    setCookie(res, COOKIE, '', 0);
-  }
+  if (Object.keys(sess.providers).length || sess.user) await persist(sess.id, sess);
+  else { await kv.del('social:sess:' + sess.id); setCookie(res, COOKIE, '', 0); }
+}
+async function saveUser(req, res, user) {
+  const sess = await loadSession(req);
+  const id = sess.id || rand();
+  sess.user = user;
+  await persist(id, sess);
+  setCookie(res, COOKIE, id, SESS_TTL);
+  return id;
+}
+async function clearSession(req, res) {
+  const id = parseCookies(req)[COOKIE];
+  if (id) { try { await kv.del('social:sess:' + id); } catch (e) {} }
+  setCookie(res, COOKIE, '', 0);
 }
 
 /* ---------- generic fetch helper ---------- */
@@ -109,5 +121,6 @@ async function httpJson(url, opts) {
 
 module.exports = {
   COOKIE, SESS_TTL, kv, haveStore, parseCookies, setCookie, rand, host, appBase,
-  redirectUri, safePath, cors, loadSession, saveProvider, removeProvider, httpJson
+  redirectUri, safePath, cors, loadSession, saveProvider, removeProvider, saveUser,
+  clearSession, httpJson
 };
