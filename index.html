@@ -3,100 +3,475 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admindly · Prototype flow map</title>
+<title>Admindly — an agentic copilot for creative teams</title>
+<meta name="description" content="Admindly reviews your reels, posts and ads, applies the fix in one click, tracks what happens across every account, and shows what's working for the competition — behind a single login.">
+<meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Admindly — an agentic copilot for creative teams">
+<meta property="og:description" content="Creative feedback, performance monitoring and competitor intelligence behind a single login.">
+<meta property="og:type" content="website">
+<script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body data-chrome="none">
-<div class="content" style="max-width:1120px;margin:0 auto">
+<body class="lp">
 
-  <div class="hero-flow">
-    <div class="row center" style="gap:11px;margin-bottom:20px">
-      <span class="logo" style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2F6BFF,#8AB0FF);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:700">A</span>
-      <span style="font-family:var(--display);font-weight:700;font-size:19px">Admindly</span>
-      <span class="tag" style="border:1px solid var(--line);padding:3px 8px;border-radius:6px">PROTOTYPE · v1</span>
+<!-- ============================ nav ============================ -->
+<nav class="lp-nav">
+  <div class="lp-wrap">
+    <a class="lp-brand" href="index.html">
+      <span class="logo">A</span> Admindly
+    </a>
+    <div class="lp-nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="prototype.html">Live demo</a>
     </div>
-    <p class="eyebrow">Prototype scope &amp; wireframe brief</p>
-    <h1>Agentic copilot suite for marketers, brands &amp; influencers</h1>
-    <p>Creative feedback, performance monitoring and competitor intelligence behind a single login. This prototype is nine screens, each its own page — open any of them below. The four working modules share a persistent left nav so users move between reacting to feedback and checking metrics without losing context.</p>
-    <div class="row wrap" style="gap:10px;margin-top:18px">
-      <a class="btn primary" href="auth.html">Open the prototype →</a>
-      <a class="btn" href="chat.html">Jump to Creative Copilot</a>
+    <div class="lp-nav-right">
+      <button class="theme-toggle" data-theme-toggle type="button" aria-label="Toggle light / dark theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" class="i-sun" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 15.6-1.4-1.4M18.4 5.6l1.4-1.4M4.2 19.8l1.4-1.4"/></svg>
+        <svg viewBox="0 0 24 24" class="i-moon" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a class="btn ghost sm" href="auth.html">Log in</a>
+      <a class="btn primary sm" href="auth.html">Get started</a>
+      <button class="lp-nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
     </div>
   </div>
-
-  <!-- entry flow -->
-  <div class="flow-stage">
-    <div class="flow-node key">
-      <div class="fn-n">01</div><div class="fn-t">Authentication</div>
-      <div class="fn-d">Log in / sign up, dummy auth. Logo lockup, tabbed toggle, SSO placeholders.</div>
-      <a class="fn-go" href="auth.html">Open →</a>
-    </div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-node key">
-      <div class="fn-n">02</div><div class="fn-t">Onboarding</div>
-      <div class="fn-d">Confirm role (marketer / brand / influencer) + category, then connect accounts. Pre-scopes every later screen.</div>
-      <a class="fn-go" href="onboarding.html">Open →</a>
-    </div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-node key">
-      <div class="fn-n">03</div><div class="fn-t">Home / App shell</div>
-      <div class="fn-d">Navigation hub. Persistent left nav, connection status, quick links into each module.</div>
-      <a class="fn-go" href="home.html">Open →</a>
-    </div>
-  </div>
-
-  <div class="note-strip" style="margin-bottom:22px"><b>From the shell</b> — the persistent nav (Copilot · Monitoring · Competitors · Calendar · Library · bell) keeps every module one click apart.</div>
-
-  <!-- modules -->
-  <div class="module-grid">
-    <div class="flow-node">
-      <div class="fn-n">04 · core</div><div class="fn-t">Creative Copilot</div>
-      <div class="fn-d">Split-pane chat + creative canvas. Feedback, suggestion cards, apply-edit &amp; regenerate, before/after, version history.</div>
-      <a class="fn-go" href="chat.html">Open →</a>
-    </div>
-    <div class="flow-node">
-      <div class="fn-n">05</div><div class="fn-t">Creative Library</div>
-      <div class="fn-d">Every original + AI-edited version. Grid view, version history, reuse in Copilot.</div>
-      <a class="fn-go" href="library.html">Open →</a>
-    </div>
-    <div class="flow-node">
-      <div class="fn-n">06</div><div class="fn-t">Monitoring Dashboard</div>
-      <div class="fn-d">Connect accounts. 30/60/90-day metrics, KPI strip, per-creative table, trend charts, AI explainer notes.</div>
-      <a class="fn-go" href="monitoring.html">Open →</a>
-    </div>
-    <div class="flow-node">
-      <div class="fn-n">07</div><div class="fn-t">Competitor &amp; Market Analysis</div>
-      <div class="fn-d">Category leaderboard → competitor detail. "Trending now" module. Bridge back into Copilot.</div>
-      <a class="fn-go" href="competitors.html">Open →</a>
-    </div>
-    <div class="flow-node">
-      <div class="fn-n">08</div><div class="fn-t">Content Calendar</div>
-      <div class="fn-d">Queue / schedule approved creatives. Closes the loop from feedback to publishing.</div>
-      <a class="fn-go" href="calendar.html">Open →</a>
-    </div>
-    <div class="flow-node">
-      <div class="fn-n">09</div><div class="fn-t">Notifications Center</div>
-      <div class="fn-d">Alerts on underperformance, competitor moves, emerging category trends. Bell icon in nav.</div>
-      <a class="fn-go" href="notifications.html">Open →</a>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:24px">
-    <div class="card-title">Design notes carried across every screen</div>
-    <div class="grid g-2" style="gap:12px">
-      <div class="note-strip" style="margin:0"><b>Persistent nav</b> between Copilot, Monitoring, Competitors and Calendar.</div>
-      <div class="note-strip" style="margin:0"><b>Copilot is the core differentiator</b> — its states get the most detail: empty, suggestion given, edit applied, edit reverted.</div>
-      <div class="note-strip" style="margin:0"><b>Consistent card patterns</b> across Monitoring &amp; Competitors — metric cards, list rows.</div>
-      <div class="note-strip" style="margin:0"><b>Two connection states</b> everywhere: connected / not connected.</div>
-      <div class="note-strip" style="margin:0"><b>Stub screens</b> are fine for Calendar, Notifications and team roles in this prototype.</div>
-      <div class="note-strip" style="margin:0"><b>Out of scope</b> — a full in-app photo/video editor. Edit-and-regenerate via chat is the differentiator.</div>
-    </div>
-  </div>
-
-  <footer class="site">Admindly · Prototype Scope &amp; Wireframe Brief v1 · black &amp; blue theme · placeholder copy and sample data throughout</footer>
+</nav>
+<div class="lp-drawer" id="lpDrawer">
+  <a href="#features">Features</a>
+  <a href="#how">How it works</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#faq">FAQ</a>
+  <a href="prototype.html">Live demo</a>
+  <a class="btn ghost" href="auth.html">Log in</a>
+  <a class="btn primary" href="auth.html">Get started free</a>
 </div>
+
+<!-- ============================ hero ============================ -->
+<header class="lp-hero">
+  <div class="lp-wrap">
+    <div class="lp-hero-inner">
+      <p class="eyebrow">Agentic copilot for creative teams</p>
+      <h1>Ship creative that performs — with a copilot that actually edits.</h1>
+      <p class="sub">Admindly reviews your reels, posts and ads, applies the fix in one click, tracks what happens across every connected account, and shows you what's working for the competition. One login.</p>
+      <div class="lp-cta-row">
+        <a class="btn primary" href="auth.html">Get started free</a>
+        <a class="btn ghost" href="prototype.html">Open the live demo →</a>
+      </div>
+      <p class="lp-trust">No card required · Instagram &amp; Facebook supported · Prototype build with sample data</p>
+    </div>
+
+    <div class="mock-frame" aria-hidden="true">
+      <div class="mock-bar"><i></i><i></i><i></i><span>Admindly · Creative Copilot</span></div>
+      <div class="mock-body">
+        <div class="chat-wrap" style="height:auto;min-height:0">
+          <section class="thread-pane">
+            <div class="pane-head">Thread <span class="sub">design partner, not a form</span></div>
+            <div class="thread" style="overflow:visible">
+              <div class="msg user"><div class="bubble">Does the hook on the spring serum reel land? It feels slow.</div></div>
+              <div class="msg ai"><div class="who">Copilot</div><div class="bubble">The first 2s open on the product on a shelf — no motion, weak for a scroll feed. The 0:08 texture shot is your strongest frame.</div></div>
+              <div class="sugg">
+                <span class="s-tag">Suggestion · reorder</span>
+                <div style="font-size:13px">Move the 0:08 texture close-up to the first frame and cut the shelf intro.</div>
+                <div class="s-actions"><span class="btn primary sm">Apply edit</span><span class="btn sm">Preview</span></div>
+              </div>
+            </div>
+          </section>
+          <section class="canvas-pane">
+            <div class="pane-head">Creative canvas <span class="sub">synced with the thread</span></div>
+            <div class="canvas-body">
+              <div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div>
+              <div class="version-strip">
+                <div class="vs-head">Version history</div>
+                <div class="vs-items"><span class="vpill">v1 · original</span><span class="vpill on">v2 · reordered hook</span><span class="vpill ghost">v3 · caption</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ logo cloud ============================ -->
+<section class="lp-section tight">
+  <div class="lp-wrap">
+    <div class="logo-cloud">
+      <span class="lc-cap">Built with brand &amp; influencer teams like</span>
+      <span>Lumen Skincare</span><span>Glow Theory</span><span>Rue &amp; Ren</span>
+      <span>Haldi Co.</span><span>Solene</span><span>Northbound</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ features ============================ -->
+<section class="lp-section alt" id="features">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="eyebrow">One suite, one login</p>
+      <h2>Everything between "here's a draft" and "that worked"</h2>
+      <p>Four modules that share a persistent nav, so you move from reacting to feedback to checking the numbers without losing context.</p>
+    </div>
+
+    <!-- 1 -->
+    <div class="feature-row">
+      <div class="feature-copy">
+        <div class="kicker">01 · Creative Copilot</div>
+        <h3>Feedback you can apply, not just read</h3>
+        <p>Bring a reel, post or static ad. Admindly tells you where the hook is weak and hands you specific fixes — reorder, caption, headline. Accept one and it regenerates the creative with the change applied.</p>
+        <div class="f-list">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Split-pane thread + canvas, kept in sync</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Every suggestion carries Apply / Preview / Dismiss</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Before / after and full version history on every edit</div>
+        </div>
+        <a class="f-go" href="chat.html">Explore Creative Copilot in the demo →</a>
+      </div>
+      <div class="feature-mock">
+        <div class="mock-frame" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span>chat.html</span></div>
+          <div class="mock-body">
+            <div class="msg user" style="max-width:80%"><div class="bubble" style="font-size:12.5px">Does the hook land?</div></div>
+            <div class="msg ai" style="max-width:92%;margin-top:9px"><div class="bubble" style="font-size:12.5px">First 2s have no motion — weak for a scroll feed.</div></div>
+            <div class="sugg" style="max-width:100%;margin-top:9px">
+              <span class="s-tag">Suggestion · reorder</span>
+              <div style="font-size:12.5px">Move the texture close-up to the first frame.</div>
+              <div class="s-actions"><span class="btn primary sm">Apply edit</span><span class="btn sm">Preview</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="feature-row reverse">
+      <div class="feature-copy">
+        <div class="kicker">02 · Monitoring Dashboard</div>
+        <h3>Know <em>why</em> the number moved</h3>
+        <p>Rolling 30 / 60 / 90-day performance across every connected account, with a plain-language note that explains the shift — posting time, format, algorithm — not just the delta.</p>
+        <div class="f-list">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> KPI strip: reach, engagement, follower growth, top post</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Per-creative table with 7-day sparklines</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> "Why the change" explainer on every trend</div>
+        </div>
+        <a class="f-go" href="monitoring.html">Explore Monitoring in the demo →</a>
+      </div>
+      <div class="feature-mock">
+        <div class="mock-frame" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span>monitoring.html</span></div>
+          <div class="mock-body">
+            <div class="grid g-2" style="gap:10px">
+              <div class="kpi" style="padding:12px"><span class="k-label">Reach</span><span class="k-val" style="font-size:19px">184.2k</span><span class="k-delta up">▲ 12%</span></div>
+              <div class="kpi" style="padding:12px"><span class="k-label">Eng. rate</span><span class="k-val" style="font-size:19px">3.1%</span><span class="k-delta down">▼ 0.4pt</span></div>
+            </div>
+            <div class="ai-note" style="margin-top:10px">
+              <span class="ai-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3"/></svg></span>
+              <div class="ai-body" style="font-size:12px"><span class="ai-tag">Why the change</span>Engagement dipped after posting shifted to evenings — your audience peaks 12–2pm.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="feature-row">
+      <div class="feature-copy">
+        <div class="kicker">03 · Competitor &amp; Market Analysis</div>
+        <h3>See what's working before it's obvious</h3>
+        <p>A category leaderboard scoped to your niche. Open any competitor to find out why they're winning — format, cadence, hook — then push that pattern straight into the Copilot as a brief.</p>
+        <div class="f-list">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Leaderboard by engagement, with your rank</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> "Trending now" — category-wide formats on the rise</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> One click from a competitor insight to a new creative</div>
+        </div>
+        <a class="f-go" href="competitors.html">Explore Competitors in the demo →</a>
+      </div>
+      <div class="feature-mock">
+        <div class="mock-frame" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span>competitors.html</span></div>
+          <div class="mock-body">
+            <div class="lb-row" style="border-color:var(--blue-line);background:var(--blue-wash)">
+              <div class="lb-rank top">1</div><div class="lb-av"></div>
+              <div><div class="lb-name">Glow Theory</div><div class="lb-cat">Indie skincare · 412k</div></div>
+              <div class="lb-metric"><div class="m">+18%</div><div class="l">growth / mo</div></div>
+            </div>
+            <div class="lb-row"><div class="lb-rank">2</div><div class="lb-av"></div><div><div class="lb-name">Rue &amp; Ren</div><div class="lb-cat">Clean beauty · 288k</div></div><div class="lb-metric"><div class="m">5.9%</div><div class="l">eng.</div></div></div>
+            <div class="lb-row"><div class="lb-rank">4</div><div class="lb-av"></div><div><div class="lb-name">Lumen Skincare <span class="chip" style="padding:2px 7px;font-size:9px">you</span></div><div class="lb-cat">Indie skincare · 84k</div></div><div class="lb-metric"><div class="m">3.1%</div><div class="l">eng.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="feature-row reverse">
+      <div class="feature-copy">
+        <div class="kicker">04 · Calendar &amp; Library</div>
+        <h3>From feedback to published, in one thread</h3>
+        <p>Every original and AI-edited version lives in the Library. Approve one and schedule it on the calendar — closing the loop between the note and the post. Notifications nudge you when something under-performs or a trend emerges.</p>
+        <div class="f-list">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Version history per creative, reusable in Copilot</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Month calendar with scheduled / queued / posted states</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Alerts on under-performance, competitor moves, trends</div>
+        </div>
+        <a class="f-go" href="library.html">Explore the Library in the demo →</a>
+      </div>
+      <div class="feature-mock">
+        <div class="mock-frame" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span>calendar.html</span></div>
+          <div class="mock-body">
+            <div class="cal-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="cal-cell"><span class="d">1</span><span class="cal-ev posted">founder_pov_post</span></div>
+              <div class="cal-cell"><span class="d">3</span><span class="cal-ev posted">shelf_static_ad</span></div>
+              <div class="cal-cell today"><span class="d">8</span><span class="cal-ev queued">spring_serum_reel v2</span></div>
+              <div class="cal-cell"><span class="d">10</span><span class="cal-ev queued">ingredient_carousel</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ how it works ============================ -->
+<section class="lp-section" id="how">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="eyebrow">How it works</p>
+      <h2>Three steps to a creative that earns its slot</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="s-n">1</div>
+        <h4>Connect your accounts</h4>
+        <p>OAuth per platform, with a status indicator you'll see across the app. Instagram and Facebook today; TikTok and YouTube on the roadmap.</p>
+      </div>
+      <div class="step">
+        <div class="s-n">2</div>
+        <h4>Bring a creative</h4>
+        <p>Drop a reel, post or static ad — or import it straight from Instagram. The thread and canvas open side by side.</p>
+      </div>
+      <div class="step">
+        <div class="s-n">3</div>
+        <h4>Apply, publish, learn</h4>
+        <p>Accept a suggestion, Admindly regenerates the creative, you schedule it — then the Monitoring note tells you what the change did.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ testimonials ============================ -->
+<section class="lp-section alt">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="eyebrow">Early notes</p>
+      <h2>What the first teams are saying</h2>
+      <p>Placeholder quotes for the prototype — real logos and case studies land with v1.</p>
+    </div>
+    <div class="tgrid">
+      <div class="tcard">
+        <p>"It's the first tool that gives our junior marketers senior-level creative notes — with the fix already written."</p>
+        <div class="who"><span class="lb-av"></span><span><b>Priya N.</b><span>Brand Manager · Lumen Skincare</span></span></div>
+      </div>
+      <div class="tcard">
+        <p>"We stopped guessing why a reel flopped. The 'why the change' note alone is worth the subscription."</p>
+        <div class="who"><span class="lb-av"></span><span><b>Marcus B.</b><span>Growth Lead · Northbound</span></span></div>
+      </div>
+      <div class="tcard">
+        <p>"Competitor breakdowns that used to take an afternoon now take a scroll. Then I send the pattern to the Copilot."</p>
+        <div class="who"><span class="lb-av"></span><span><b>Dana R.</b><span>Founder · Solene</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ pricing ============================ -->
+<section class="lp-section" id="pricing">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="eyebrow">Pricing</p>
+      <h2>Start free. Upgrade when it's carrying weight.</h2>
+    </div>
+
+    <div class="bill-toggle">
+      <div class="segment" id="billToggle" role="group" aria-label="Billing period">
+        <button class="on" data-bill="mo" type="button">Monthly</button>
+        <button data-bill="yr" type="button">Annual</button>
+      </div>
+      <span class="bill-note" hidden id="billNote">≈ 2 months free</span>
+    </div>
+
+    <div class="pricing">
+      <div class="price-card">
+        <div>
+          <div class="p-name">Starter</div>
+          <div class="p-desc">For one brand, finding its feet.</div>
+        </div>
+        <div class="p-amt" data-mo="$0" data-yr="$0">$0 <small>/ mo</small></div>
+        <a class="btn block" href="auth.html">Get started</a>
+        <div class="price-feats">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> 1 brand · 1 connected account</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> 20 Copilot edits / month</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> 30-day monitoring</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Creative Library</div>
+        </div>
+      </div>
+
+      <div class="price-card popular">
+        <span class="p-flag">Most popular</span>
+        <div>
+          <div class="p-name">Growth</div>
+          <div class="p-desc">For a marketing team running the whole loop.</div>
+        </div>
+        <div class="p-amt" data-mo="$49" data-yr="$39">$49 <small>/ mo</small></div>
+        <a class="btn primary block" href="auth.html">Start 14-day trial</a>
+        <div class="price-feats">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> 3 brands · all platforms</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Unlimited Copilot edits</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> 90-day monitoring + competitor analysis</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Content calendar &amp; notifications</div>
+        </div>
+      </div>
+
+      <div class="price-card">
+        <div>
+          <div class="p-name">Scale</div>
+          <div class="p-desc">For agencies and multi-brand teams.</div>
+        </div>
+        <div class="p-amt" data-mo="$159" data-yr="$129">$159 <small>/ mo</small></div>
+        <a class="btn block" href="auth.html">Talk to us</a>
+        <div class="price-feats">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Unlimited brands</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Team roles &amp; approval flow</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> API access &amp; audit log</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Priority support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ faq ============================ -->
+<section class="lp-section alt" id="faq">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="eyebrow">FAQ</p>
+      <h2>The questions we get first</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Does Admindly edit the video or image itself?</summary>
+        <p>It regenerates the creative with the change applied — a reorder, a caption, a hook, a headline. A full in-app photo/video editor is out of scope; edit-and-regenerate through chat is the differentiator.</p>
+      </details>
+      <details>
+        <summary>Which platforms can I connect?</summary>
+        <p>Instagram and Facebook today, with a per-platform OAuth step and a connection status you'll see across the app. TikTok and YouTube are on the roadmap.</p>
+      </details>
+      <details>
+        <summary>Is my data used to train models?</summary>
+        <p>Placeholder answer for the prototype: no. Your creatives and metrics stay in your workspace and aren't used for training.</p>
+      </details>
+      <details>
+        <summary>Do I need a card to start?</summary>
+        <p>No. Starter is free forever. Growth has a 14-day trial and you add a card only if you keep it.</p>
+      </details>
+      <details>
+        <summary>Can my team collaborate?</summary>
+        <p>Scale adds roles and an approval flow — marketer → approver → brand manager — so an edit is reviewed before it goes live. Approvals surface in the Notifications Center.</p>
+      </details>
+      <details>
+        <summary>Is this a finished product?</summary>
+        <p>This is a v1 prototype. The copy and the numbers are placeholders; the screens and flows are real. Open the <a href="prototype.html">live demo</a> to click through all nine.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ cta ============================ -->
+<section class="lp-section">
+  <div class="lp-wrap">
+    <div class="cta-band">
+      <h2>Give your creatives a copilot.</h2>
+      <p>Connect an account, bring a reel, and see the first suggestion in under a minute.</p>
+      <div class="lp-cta-row">
+        <a class="btn primary" href="auth.html">Get started free</a>
+        <a class="btn ghost" href="prototype.html">Open the live demo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ footer ============================ -->
+<footer class="lp-footer">
+  <div class="lp-wrap">
+    <div class="lp-footer-cols">
+      <div class="fc-brand">
+        <a class="lp-brand" href="index.html"><span class="logo">A</span> Admindly</a>
+        <p>An agentic copilot suite for marketers, brands and influencers.</p>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="chat.html">Creative Copilot</a>
+        <a href="monitoring.html">Monitoring</a>
+        <a href="competitors.html">Competitors</a>
+        <a href="calendar.html">Content Calendar</a>
+        <a href="library.html">Creative Library</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About</a><a href="#">Careers</a><a href="#">Blog</a><a href="#">Contact</a>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <a href="prototype.html">Live demo</a><a href="#">Docs</a><a href="#">Changelog</a><a href="#">Status</a>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <a href="#">Privacy</a><a href="#">Terms</a><a href="#">DPA</a><a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+  <div class="lp-footer-base">
+    <span>© 2026 Admindly · Prototype v1 · Placeholder copy and sample data throughout</span>
+    <span>Black &amp; blue theme · light + dark</span>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+  /* landing-page-only: mobile drawer + pricing billing toggle */
+  (function () {
+    var drawer = document.getElementById('lpDrawer');
+    var burger = document.querySelector('.lp-nav-toggle');
+    if (burger && drawer) {
+      burger.addEventListener('click', function () {
+        var open = drawer.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      drawer.addEventListener('click', function (e) { if (e.target.closest('a')) drawer.classList.remove('open'); });
+    }
+
+    var bill = document.getElementById('billToggle');
+    var note = document.getElementById('billNote');
+    if (bill) {
+      bill.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-bill]');
+        if (!b) return;
+        var yr = b.getAttribute('data-bill') === 'yr';
+        if (note) note.hidden = !yr;
+        document.querySelectorAll('.p-amt').forEach(function (el) {
+          var v = el.getAttribute(yr ? 'data-yr' : 'data-mo');
+          el.innerHTML = v + ' <small>/ mo</small>';
+        });
+      });
+    }
+  })();
+</script>
 </body>
 </html>

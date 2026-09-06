@@ -4,9 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admindly · Creative Library</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Creative Library — every original and AI-edited version, grouped by creative, with full version history.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body data-page="library" data-title="Creative Library">
@@ -20,19 +25,19 @@
       </div>
 
       <div class="row between center wrap" style="gap:10px;margin-bottom:16px">
-        <div class="row wrap" style="gap:7px">
-          <span class="chip on" data-toggle>All</span>
-          <span class="chip" data-toggle>Reels</span>
-          <span class="chip" data-toggle>Posts</span>
-          <span class="chip" data-toggle>Static ads</span>
-          <span class="chip" data-toggle>Edited by Copilot</span>
+        <div class="row wrap" style="gap:7px" id="libFilter" role="group" aria-label="Filter creatives">
+          <button class="chip on" data-filter="all" type="button">All</button>
+          <button class="chip" data-filter="reel" type="button">Reels</button>
+          <button class="chip" data-filter="post" type="button">Posts</button>
+          <button class="chip" data-filter="static" type="button">Static ads</button>
+          <button class="chip" data-filter="edited" type="button">Edited by Copilot</button>
         </div>
-        <div class="segment"><button class="on">Grid</button><button>List</button></div>
+        <div class="segment" id="libView"><button class="on" type="button">Grid</button><button type="button">List</button></div>
       </div>
 
-      <div class="grid g-3">
+      <div class="grid g-3" id="libGrid">
 
-        <div class="card">
+        <div class="card" data-kind="reel" data-edited="1">
           <div class="media tall"><span class="pill">reel · v2</span>spring_serum_reel</div>
           <div class="row between center" style="margin:11px 0 8px">
             <div style="font-weight:600;font-size:13.5px">spring_serum_reel</div>
@@ -49,7 +54,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-kind="reel">
           <div class="media tall"><span class="pill">reel · v1</span>founder_pov_post</div>
           <div class="row between center" style="margin:11px 0 8px">
             <div style="font-weight:600;font-size:13.5px">founder_pov_post</div>
@@ -62,7 +67,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-kind="static" data-edited="1">
           <div class="media tall"><span class="pill">static · v2</span>shelf_static_ad</div>
           <div class="row between center" style="margin:11px 0 8px">
             <div style="font-weight:600;font-size:13.5px">shelf_static_ad</div>
@@ -75,7 +80,47 @@
           </div>
         </div>
 
+        <div class="card" data-kind="post" data-edited="1">
+          <div class="media tall"><span class="pill">post · v2</span>ingredient_carousel</div>
+          <div class="row between center" style="margin:11px 0 8px">
+            <div style="font-weight:600;font-size:13.5px">ingredient_carousel</div>
+            <span class="chip on" style="padding:2px 8px;font-size:9px">2 versions</span>
+          </div>
+          <div class="vs-items"><span class="vpill">v1 · original</span><span class="vpill on">v2 · question cover</span></div>
+          <div class="row" style="gap:7px;margin-top:11px">
+            <a class="btn sm grow" href="chat.html">Open in Copilot</a>
+            <a class="btn sm grow" href="calendar.html">Schedule</a>
+          </div>
+        </div>
+
+        <div class="card" data-kind="reel">
+          <div class="media tall"><span class="pill">reel · v1</span>unboxing_reel</div>
+          <div class="row between center" style="margin:11px 0 8px">
+            <div style="font-weight:600;font-size:13.5px">unboxing_reel</div>
+            <span class="chip" style="padding:2px 8px;font-size:9px">1 version</span>
+          </div>
+          <div class="vs-items"><span class="vpill on">v1 · original</span></div>
+          <div class="row" style="gap:7px;margin-top:11px">
+            <a class="btn sm grow" href="chat.html">Open in Copilot</a>
+            <a class="btn sm grow" href="calendar.html">Schedule</a>
+          </div>
+        </div>
+
+        <div class="card" data-kind="static">
+          <div class="media tall"><span class="pill">static · v1</span>promo_static_q4</div>
+          <div class="row between center" style="margin:11px 0 8px">
+            <div style="font-weight:600;font-size:13.5px">promo_static_q4</div>
+            <span class="chip" style="padding:2px 8px;font-size:9px">1 version</span>
+          </div>
+          <div class="vs-items"><span class="vpill on">v1 · original</span></div>
+          <div class="row" style="gap:7px;margin-top:11px">
+            <a class="btn sm grow" href="chat.html">Open in Copilot</a>
+            <a class="btn sm grow" href="calendar.html">Schedule</a>
+          </div>
+        </div>
+
       </div>
+      <p class="hint" id="libEmpty" hidden style="margin-top:8px">No creatives match that filter.</p>
 
       <div class="card" style="margin-top:16px">
         <div class="card-title">Version history <span class="sub">spring_serum_reel</span></div>
@@ -95,5 +140,27 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
+<script>
+/* prototype: library filter chips + grid/list view */
+(function () {
+  var grid = document.getElementById('libGrid'),
+      empty = document.getElementById('libEmpty'),
+      cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+  document.getElementById('libFilter').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-filter]'); if (!b) return;
+    this.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    var f = b.getAttribute('data-filter'), shown = 0;
+    cards.forEach(function (c) {
+      var ok = f === 'all' || (f === 'edited' ? c.dataset.edited === '1' : c.dataset.kind === f);
+      c.hidden = !ok; if (ok) shown++;
+    });
+    empty.hidden = shown > 0;
+  });
+  document.getElementById('libView').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    grid.classList.toggle('list', b.textContent.trim() === 'List');
+  });
+})();
+</script>
 </body>
 </html>

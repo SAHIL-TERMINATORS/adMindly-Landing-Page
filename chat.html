@@ -4,9 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admindly · Creative Copilot</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Creative Copilot — bring a reel, post or ad and get feedback with one-click edits that regenerate the creative.">
+<!-- Gemini proxy base URL. Empty = same origin (/api/chat), e.g. on Vercel.
+     Set to your Worker URL if the backend is hosted separately. -->
+<meta name="admindly:api-base" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body data-page="chat" data-title="Creative Copilot">
@@ -33,11 +41,15 @@
         <!-- thread -->
         <section class="thread-pane">
           <div class="pane-head">
-            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M21 11.5a8.4 8.4 0 0 1-13 7l-5 1 1.4-4A8.4 8.4 0 1 1 21 11.5Z"/></svg>
-            Thread <span class="sub">design partner, not a form</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M21 11.5a8.4 8.4 0 0 1-13 7l-5 1 1.4-4A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+            Thread
+            <span class="ai-status" id="cvStatus" data-state="demo" title="Live = answers come from Gemini · Demo = scripted fallback">○ demo mode</span>
           </div>
 
-          <div class="thread">
+          <div class="thread" id="cvThread"
+               data-creative="spring_serum_reel.mp4 — a 0:14 vertical Reel for a skincare brand"
+               data-notes="Opens on the product on a shelf (no motion/face for the first 2s). Texture close-up at 0:08 is the strongest frame. Current cut is v2 with the hook reordered.">
+
             <div class="msg user"><div class="who">You</div><div class="bubble">Here's the spring serum reel — does the hook land? It feels slow.</div>
               <div class="media" style="min-height:70px;margin-top:8px;width:180px;margin-left:auto"><span class="pill">reel · 0:14</span></div>
             </div>
@@ -65,10 +77,15 @@
             </div>
           </div>
 
-          <div class="composer">
-            <div class="box"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-6 5-5 5 5m-5-5v13"/></svg> Drop a file, import from Instagram, or reply…</div>
+          <form class="composer" id="cvComposer">
+            <div class="box" style="padding:6px 6px 6px 12px">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-6 5-5 5 5m-5-5v13"/></svg>
+              <input id="cvInput" type="text" autocomplete="off" placeholder="Drop a file, import from Instagram, or reply…"
+                style="flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:12.5px;outline:none">
+              <button class="btn primary sm" type="submit" aria-label="Send">Send</button>
+            </div>
             <span class="hint">Upload = drag-and-drop or platform import. History and edits stay attached to this creative.</span>
-          </div>
+          </form>
         </section>
 
         <!-- canvas -->
@@ -78,14 +95,14 @@
             Creative canvas <span class="sub">kept in sync with the thread</span>
           </div>
           <div class="canvas-body">
-            <div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div>
+            <div id="cvCanvas"><div class="media tall"><span class="pill">current · v2</span>spring_serum_reel — preview</div></div>
 
             <div class="row between center">
-              <div class="segment">
-                <button class="on">Current</button>
-                <button>Before / after</button>
+              <div class="segment" id="cvSeg">
+                <button class="on" type="button">Current</button>
+                <button type="button">Before / after</button>
               </div>
-              <button class="btn ghost sm"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg> Revert</button>
+              <button class="btn ghost sm" id="cvRevert" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg> Revert</button>
             </div>
 
             <div class="version-strip">
@@ -186,17 +203,6 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
-<script>
-  /* prototype: clicking "Apply edit" in the live thread nudges the canvas version strip */
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-apply]');
-    if (!b) return;
-    b.textContent = 'Applied ✓';
-    b.classList.remove('primary');
-    b.disabled = true;
-    var ghost = document.querySelector('.vpill.ghost');
-    if (ghost) { ghost.classList.remove('ghost'); }
-  });
-</script>
+<script src="assets/copilot.js"></script>
 </body>
 </html>

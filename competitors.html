@@ -4,9 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admindly · Competitors</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Competitor & Market Analysis — a category leaderboard, competitor breakdowns and trending formats, wired back into the Copilot.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body data-page="competitors" data-title="Competitors">
@@ -37,16 +42,16 @@
         <div>
           <div class="card-title">Leaderboard <span class="sub">Beauty &amp; skincare · by engagement</span></div>
 
-          <div class="lb-row" style="border-color:var(--blue-line);background:var(--blue-wash)">
+          <div class="lb-row is-sel" tabindex="0" role="button" data-comp="glow">
             <div class="lb-rank top">1</div>
             <div class="lb-av"></div>
-            <div><div class="lb-name">Glow Theory <span class="chip on" style="padding:2px 7px;font-size:9px">open ▸</span></div><div class="lb-cat">Indie skincare · 412k followers</div></div>
+            <div><div class="lb-name">Glow Theory</div><div class="lb-cat">Indie skincare · 412k followers</div></div>
             <div class="lb-metric"><div class="m">+18%</div><div class="l">growth / mo</div></div>
           </div>
-          <div class="lb-row"><div class="lb-rank">2</div><div class="lb-av"></div><div><div class="lb-name">Rue &amp; Ren</div><div class="lb-cat">Clean beauty · 288k followers</div></div><div class="lb-metric"><div class="m">5.9%</div><div class="l">eng. rate</div></div></div>
-          <div class="lb-row"><div class="lb-rank">3</div><div class="lb-av"></div><div><div class="lb-name">Haldi Co.</div><div class="lb-cat">Ayurvedic skincare · 196k followers</div></div><div class="lb-metric"><div class="m">5.1%</div><div class="l">eng. rate</div></div></div>
-          <div class="lb-row"><div class="lb-rank">4</div><div class="lb-av"></div><div><div class="lb-name">Lumen Skincare <span class="chip" style="padding:2px 7px;font-size:9px">you</span></div><div class="lb-cat">Indie skincare · 84k followers</div></div><div class="lb-metric"><div class="m">3.1%</div><div class="l">eng. rate</div></div></div>
-          <div class="lb-row"><div class="lb-rank">5</div><div class="lb-av"></div><div><div class="lb-name">Solene</div><div class="lb-cat">Minimalist skincare · 71k followers</div></div><div class="lb-metric"><div class="m">2.8%</div><div class="l">eng. rate</div></div></div>
+          <div class="lb-row" tabindex="0" role="button" data-comp="rue"><div class="lb-rank">2</div><div class="lb-av"></div><div><div class="lb-name">Rue &amp; Ren</div><div class="lb-cat">Clean beauty · 288k followers</div></div><div class="lb-metric"><div class="m">5.9%</div><div class="l">eng. rate</div></div></div>
+          <div class="lb-row" tabindex="0" role="button" data-comp="haldi"><div class="lb-rank">3</div><div class="lb-av"></div><div><div class="lb-name">Haldi Co.</div><div class="lb-cat">Ayurvedic skincare · 196k followers</div></div><div class="lb-metric"><div class="m">5.1%</div><div class="l">eng. rate</div></div></div>
+          <div class="lb-row" tabindex="0" role="button" data-comp="lumen"><div class="lb-rank">4</div><div class="lb-av"></div><div><div class="lb-name">Lumen Skincare <span class="chip" style="padding:2px 7px;font-size:9px">you</span></div><div class="lb-cat">Indie skincare · 84k followers</div></div><div class="lb-metric"><div class="m">3.1%</div><div class="l">eng. rate</div></div></div>
+          <div class="lb-row" tabindex="0" role="button" data-comp="solene"><div class="lb-rank">5</div><div class="lb-av"></div><div><div class="lb-name">Solene</div><div class="lb-cat">Minimalist skincare · 71k followers</div></div><div class="lb-metric"><div class="m">2.8%</div><div class="l">eng. rate</div></div></div>
 
           <div class="card" style="margin-top:16px">
             <div class="card-title"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--blue-hi);fill:none;stroke-width:2"><path d="M3 17 9 11l4 4 8-8"/><path d="M17 4h4v4"/></svg> Trending now <span class="sub">category-wide, not one competitor</span></div>
@@ -60,14 +65,14 @@
         </div>
 
         <!-- competitor detail -->
-        <div class="card glow" style="align-self:start">
+        <div class="card glow" style="align-self:start" id="cDetail">
           <div class="row between center" style="margin-bottom:12px">
-            <div class="row center" style="gap:10px"><span class="lb-av"></span><div><div style="font-weight:600">Glow Theory</div><div class="lb-cat">#1 · Indie skincare</div></div></div>
-            <span class="chip good">+18% / mo</span>
+            <div class="row center" style="gap:10px"><span class="lb-av"></span><div><div style="font-weight:600" id="cName">Glow Theory</div><div class="lb-cat" id="cRank">#1 · Indie skincare</div></div></div>
+            <span class="chip good" id="cMetric">+18% / mo</span>
           </div>
 
           <span class="tag">What's working</span>
-          <div class="col" style="gap:8px;margin:8px 0 14px">
+          <div class="col" id="cNotes" style="gap:8px;margin:8px 0 14px">
             <div class="note-strip" style="margin:0"><b>Trending format</b> — 4 of last 6 posts are founder-POV reels shot handheld, face in frame within 1s.</div>
             <div class="note-strip" style="margin:0"><b>Posting cadence</b> — 5×/week, consistently 12–1pm. Reels only on Tue/Thu.</div>
             <div class="note-strip" style="margin:0"><b>Standout creative</b> — "why our serum pills" reel: 1.2M views, 9.1% eng. Opens on a problem, not the product.</div>
@@ -92,5 +97,54 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
+<script>
+/* prototype: click / Enter on a leaderboard row loads that competitor into the detail card */
+(function () {
+  var COMP = {
+    glow:   { name:'Glow Theory', rank:'#1 · Indie skincare', metric:'+18% / mo', good:true, notes:[
+      ['Trending format','4 of last 6 posts are founder-POV reels shot handheld, face in frame within 1s.'],
+      ['Posting cadence','5×/week, consistently 12–1pm. Reels only on Tue/Thu.'],
+      ['Standout creative','"why our serum pills" reel: 1.2M views, 9.1% eng. Opens on a problem, not the product.'],
+      ['Attributed factors','hook is a spoken question · captions are 1 line · no on-screen brand name until 0:05.']]},
+    rue:    { name:'Rue & Ren', rank:'#2 · Clean beauty', metric:'5.9% eng.', good:true, notes:[
+      ['Trending format','Ingredient-breakdown carousels — 6–8 slides, one claim per slide.'],
+      ['Posting cadence','4×/week, mornings 8–9am. Carousels Mon/Wed/Fri.'],
+      ['Standout creative','"what’s actually in your toner" carousel: 210k reach, 6.4% saves.'],
+      ['Attributed factors','slide 1 is a question · muted palette · text-only covers.']]},
+    haldi:  { name:'Haldi Co.', rank:'#3 · Ayurvedic skincare', metric:'5.1% eng.', good:true, notes:[
+      ['Trending format','Ritual / GRWM reels with a voiceover in the founder’s first language.'],
+      ['Posting cadence','3×/week, evenings. Consistent Sunday "week ahead" post.'],
+      ['Standout creative','morning-ritual reel: 480k views, strong completion rate.'],
+      ['Attributed factors','slow first frame works here — audience watches for the routine, not a hook.']]},
+    lumen:  { name:'Lumen Skincare', rank:'#4 · Indie skincare (you)', metric:'3.1% eng.', good:false, notes:[
+      ['Where you’re strong','Texture close-ups outperform your category average by 2.1pt.'],
+      ['Where you’re losing','Shelf / product-on-surface intros — 1.6% eng vs 4%+ for face-first openers.'],
+      ['Cadence gap','3×/week vs the top 3 averaging 4–5×. Evening slots underperform your midday posts.'],
+      ['Next move','Reorder hooks texture-first, move 2 posts/week to 12–2pm, test a founder-POV reel.']]},
+    solene: { name:'Solene', rank:'#5 · Minimalist skincare', metric:'2.8% eng.', good:false, notes:[
+      ['Trending format','Static single-product shots with large type. Low motion, low engagement.'],
+      ['Posting cadence','2×/week, irregular. Long gaps hurt reach.'],
+      ['Standout creative','none breaking out this period — flattest feed in the top 5.'],
+      ['Attributed factors','aesthetic is strong but the feed asks nothing of the viewer.']]}
+  };
+  var name = document.getElementById('cName'), rank = document.getElementById('cRank'),
+      metric = document.getElementById('cMetric'), notes = document.getElementById('cNotes');
+  function load(key, row) {
+    var c = COMP[key]; if (!c) return;
+    document.querySelectorAll('.lb-row[data-comp]').forEach(function (r) { r.classList.toggle('is-sel', r === row); });
+    name.textContent = c.name; rank.textContent = c.rank;
+    metric.textContent = c.metric; metric.className = 'chip ' + (c.good ? 'good' : 'warn');
+    notes.innerHTML = c.notes.map(function (n) {
+      return '<div class="note-strip" style="margin:0"><b>' + n[0] + '</b> — ' + n[1] + '</div>';
+    }).join('');
+  }
+  document.querySelectorAll('.lb-row[data-comp]').forEach(function (row) {
+    row.addEventListener('click', function () { load(row.getAttribute('data-comp'), row); });
+    row.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(row.getAttribute('data-comp'), row); }
+    });
+  });
+})();
+</script>
 </body>
 </html>

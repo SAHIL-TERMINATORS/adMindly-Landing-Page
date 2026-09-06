@@ -1,0 +1,11 @@
+name = "admindly-proxy"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Set the key as a secret, not here:
+#   npx wrangler secret put GEMINI_API_KEY
+#
+# Non-secret config can live here:
+[vars]
+GEMINI_MODEL = "gemini-2.5-flash"
+# ALLOWED_ORIGINS = "https://sahil-terminators.github.io"

@@ -4,9 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admindly · Monitoring</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Monitoring Dashboard — rolling 30/60/90-day performance across every connected account, with plain-language explainers.">
+<meta name="admindly:api-base" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body data-page="monitoring" data-title="Monitoring">
@@ -40,7 +46,7 @@
         <p class="hint" style="margin:-6px 0 16px">Time-range switcher is persistent and applies globally to this dashboard.</p>
 
         <!-- KPI strip -->
-        <div class="grid g-4" style="margin-bottom:16px">
+        <div class="grid g-4" style="margin-bottom:16px" id="mKpis">
           <div class="kpi"><span class="k-label">Reach</span><span class="k-val">184.2k</span><span class="k-delta up">▲ 12% vs prev</span></div>
           <div class="kpi"><span class="k-label">Engagement rate</span><span class="k-val">3.1%</span><span class="k-delta down">▼ 0.4pt vs prev</span></div>
           <div class="kpi"><span class="k-label">Follower growth</span><span class="k-val">+2,410</span><span class="k-delta up">▲ 8%</span></div>
@@ -50,14 +56,14 @@
         <!-- AI note -->
         <div class="ai-note" style="margin-bottom:16px">
           <span class="ai-ico"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.5-6.5-2 2m-7 7-2 2m11 0-2-2m-7-7-2-2"/></svg></span>
-          <div class="ai-body"><span class="ai-tag">Why the change</span>Engagement rate <b>dipped after posting time shifted to evenings</b> (7–9pm) three weeks ago — your audience is most active at 12–2pm. Reach held up because the algorithm still pushed the reordered-hook reel. Try moving 2 posts/week back to midday.</div>
+          <div class="ai-body" data-ai-insight data-metrics='{"window":"60 days","reach":"184.2k (+12% vs prev)","engagement_rate":"3.1% (-0.4pt vs prev)","follower_growth":"+2,410","top_post":"texture_closeup_reel","known_context":"posting time shifted to evenings 7-9pm about 3 weeks ago; audience is most active 12-2pm"}'><span class="ai-tag">Why the change</span>Engagement rate <b>dipped after posting time shifted to evenings</b> (7–9pm) three weeks ago — your audience is most active at 12–2pm. Reach held up because the algorithm still pushed the reordered-hook reel. Try moving 2 posts/week back to midday.</div>
         </div>
 
         <!-- chart -->
         <div class="card" style="margin-bottom:16px">
-          <div class="card-title">Engagement over time <span class="sub">Instagram · 60 days</span></div>
+          <div class="card-title">Engagement over time <span class="sub" id="mSub">Instagram · 60 days</span></div>
           <div class="chart">
-            <svg viewBox="0 0 640 180" role="img" aria-label="Engagement trend, Instagram, 60 days">
+            <svg viewBox="0 0 640 180" role="img" aria-label="Engagement trend, Instagram, 60 days" id="mChart">
               <defs>
                 <linearGradient id="blueFade" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0" stop-color="#2F6BFF" stop-opacity="0.28"/>
@@ -128,5 +134,55 @@
   </div>
 </div>
 <script src="assets/app.js"></script>
+<script src="assets/copilot.js"></script>
+<script>
+/* prototype: 30 / 60 / 90-day switch swaps the KPI strip and redraws the trend */
+(function () {
+  var DATA = {
+    '30d': {
+      sub: 'Instagram · 30 days',
+      kpi: [['92.6k','▲ 7% vs prev','up'], ['3.4%','▲ 0.2pt vs prev','up'], ['+1,180','▲ 5%','up'], ['texture_closeup_reel','▲ 7.1% eng.','up']],
+      a: '8,120 70,104 140,96 210,110 280,72 350,66 420,58 490,80 560,64 632,52',
+      b: '8,150 70,148 140,150 210,146 280,150 350,148 420,150 490,150 560,148 632,150',
+      pt: [420,58], peak: 'peak: midday test'
+    },
+    '60d': {
+      sub: 'Instagram · 60 days',
+      kpi: [['184.2k','▲ 12% vs prev','up'], ['3.1%','▼ 0.4pt vs prev','down'], ['+2,410','▲ 8%','up'], ['texture_closeup_reel','▲ 6.8% eng.','up']],
+      a: '8,132 70,120 140,126 210,88 280,96 350,60 420,104 490,120 560,112 632,96',
+      b: '8,150 70,146 140,140 210,138 280,132 350,128 420,140 490,150 560,150 632,144',
+      pt: [350,60], peak: 'peak: reordered hook'
+    },
+    '90d': {
+      sub: 'Instagram · 90 days',
+      kpi: [['268.9k','▲ 9% vs prev','up'], ['2.8%','▼ 0.6pt vs prev','down'], ['+3,900','▲ 6%','up'], ['founder_pov_post','▲ 5.4% eng.','up']],
+      a: '8,150 70,132 140,120 210,96 280,110 350,72 420,116 490,104 560,128 632,120',
+      b: '8,156 70,150 140,146 210,150 280,144 350,140 420,150 490,150 560,152 632,150',
+      pt: [350,72], peak: 'peak: founder-POV run'
+    }
+  };
+  function toPath(pts) { return 'M' + pts.replace(/ /g, ' L') + ' L632,168 L8,168 Z'; }
+  var svg = document.getElementById('mChart'), sub = document.getElementById('mSub'), kpis = document.getElementById('mKpis');
+  function render(key) {
+    var d = DATA[key]; if (!d) return;
+    sub.textContent = d.sub;
+    svg.querySelector('.area').setAttribute('d', toPath(d.a));
+    svg.querySelector('.line-a').setAttribute('points', d.a);
+    svg.querySelector('.line-b').setAttribute('points', d.b);
+    var pt = svg.querySelector('.pt'); pt.setAttribute('cx', d.pt[0]); pt.setAttribute('cy', d.pt[1]);
+    svg.querySelectorAll('.axis-t')[1].textContent = d.peak;
+    svg.querySelectorAll('.axis-t')[2].textContent = key + ' ago';
+    kpis.querySelectorAll('.kpi').forEach(function (box, i) {
+      box.querySelector('.k-val').textContent = d.kpi[i][0];
+      var delta = box.querySelector('.k-delta');
+      delta.textContent = d.kpi[i][1];
+      delta.className = 'k-delta ' + d.kpi[i][2];
+    });
+  }
+  document.querySelector('.segment[aria-label="Time range"]').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (b) render(b.textContent.trim());
+  });
+})();
+</script>
 </body>
 </html>

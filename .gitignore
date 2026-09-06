@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# local dev
+_*.html
+*.log
+
+# secrets & deploy
+.env
+.env.*
+!.env.example
+.vercel
+.wrangler
+worker/.wrangler
+node_modules/

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admindly · Interactive demo</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F8FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080B11" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Interactive demo of Admindly — click through all nine screens of the v1 prototype.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try{var t=localStorage.getItem('admindly-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-chrome="none">
+<button class="theme-toggle floating" data-theme-toggle type="button" aria-label="Toggle light / dark theme" title="Toggle theme"><svg viewBox="0 0 24 24" class="i-sun" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 15.6-1.4-1.4M18.4 5.6l1.4-1.4M4.2 19.8l1.4-1.4"/></svg><svg viewBox="0 0 24 24" class="i-moon" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+<div class="content" style="max-width:1120px;margin:0 auto">
+
+  <div class="hero-flow">
+    <div class="row center" style="gap:11px;margin-bottom:20px">
+      <span class="logo" style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2F6BFF,#8AB0FF);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:700">A</span>
+      <span style="font-family:var(--display);font-weight:700;font-size:19px">Admindly</span>
+      <span class="tag" style="border:1px solid var(--line);padding:3px 8px;border-radius:6px">PROTOTYPE · v1</span>
+    </div>
+    <p class="eyebrow">Interactive demo · nine screens</p>
+    <h1>Agentic copilot suite for marketers, brands &amp; influencers</h1>
+    <p>Creative feedback, performance monitoring and competitor intelligence behind a single login. This demo is nine screens, each its own page — open any of them below. The working modules share a persistent left nav so you move between reacting to feedback and checking metrics without losing context. Every screen supports light and dark.</p>
+    <div class="row wrap" style="gap:10px;margin-top:18px">
+      <a class="btn primary" href="auth.html">Start the walkthrough →</a>
+      <a class="btn" href="chat.html">Jump to Creative Copilot</a>
+      <a class="btn ghost" href="index.html">← Back to admindly.com</a>
+    </div>
+  </div>
+
+  <!-- entry flow -->
+  <div class="flow-stage">
+    <div class="flow-node key">
+      <div class="fn-n">01</div><div class="fn-t">Authentication</div>
+      <div class="fn-d">Log in / sign up, dummy auth. Logo lockup, tabbed toggle, SSO placeholders.</div>
+      <a class="fn-go" href="auth.html">Open →</a>
+    </div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node key">
+      <div class="fn-n">02</div><div class="fn-t">Onboarding</div>
+      <div class="fn-d">Confirm role (marketer / brand / influencer) + category, then connect accounts. Pre-scopes every later screen.</div>
+      <a class="fn-go" href="onboarding.html">Open →</a>
+    </div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node key">
+      <div class="fn-n">03</div><div class="fn-t">Home / App shell</div>
+      <div class="fn-d">Navigation hub. Persistent left nav, connection status, quick links into each module.</div>
+      <a class="fn-go" href="home.html">Open →</a>
+    </div>
+  </div>
+
+  <div class="note-strip" style="margin-bottom:22px"><b>From the shell</b> — the persistent nav (Copilot · Monitoring · Competitors · Calendar · Library · bell) keeps every module one click apart.</div>
+
+  <!-- modules -->
+  <div class="module-grid">
+    <div class="flow-node">
+      <div class="fn-n">04 · core</div><div class="fn-t">Creative Copilot</div>
+      <div class="fn-d">Split-pane chat + creative canvas. Feedback, suggestion cards, apply-edit &amp; regenerate, before/after, version history.</div>
+      <a class="fn-go" href="chat.html">Open →</a>
+    </div>
+    <div class="flow-node">
+      <div class="fn-n">05</div><div class="fn-t">Creative Library</div>
+      <div class="fn-d">Every original + AI-edited version. Grid view, version history, reuse in Copilot.</div>
+      <a class="fn-go" href="library.html">Open →</a>
+    </div>
+    <div class="flow-node">
+      <div class="fn-n">06</div><div class="fn-t">Monitoring Dashboard</div>
+      <div class="fn-d">Connect accounts. 30/60/90-day metrics, KPI strip, per-creative table, trend charts, AI explainer notes.</div>
+      <a class="fn-go" href="monitoring.html">Open →</a>
+    </div>
+    <div class="flow-node">
+      <div class="fn-n">07</div><div class="fn-t">Competitor &amp; Market Analysis</div>
+      <div class="fn-d">Category leaderboard → competitor detail. "Trending now" module. Bridge back into Copilot.</div>
+      <a class="fn-go" href="competitors.html">Open →</a>
+    </div>
+    <div class="flow-node">
+      <div class="fn-n">08</div><div class="fn-t">Content Calendar</div>
+      <div class="fn-d">Queue / schedule approved creatives. Closes the loop from feedback to publishing.</div>
+      <a class="fn-go" href="calendar.html">Open →</a>
+    </div>
+    <div class="flow-node">
+      <div class="fn-n">09</div><div class="fn-t">Notifications Center</div>
+      <div class="fn-d">Alerts on underperformance, competitor moves, emerging category trends. Bell icon in nav.</div>
+      <a class="fn-go" href="notifications.html">Open →</a>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <div class="card-title">Design notes carried across every screen</div>
+    <div class="grid g-2" style="gap:12px">
+      <div class="note-strip" style="margin:0"><b>Persistent nav</b> between Copilot, Monitoring, Competitors and Calendar.</div>
+      <div class="note-strip" style="margin:0"><b>Copilot is the core differentiator</b> — its states get the most detail: empty, suggestion given, edit applied, edit reverted.</div>
+      <div class="note-strip" style="margin:0"><b>Consistent card patterns</b> across Monitoring &amp; Competitors — metric cards, list rows.</div>
+      <div class="note-strip" style="margin:0"><b>Two connection states</b> everywhere: connected / not connected.</div>
+      <div class="note-strip" style="margin:0"><b>Stub screens</b> are fine for Calendar, Notifications and team roles in this prototype.</div>
+      <div class="note-strip" style="margin:0"><b>Out of scope</b> — a full in-app photo/video editor. Edit-and-regenerate via chat is the differentiator.</div>
+    </div>
+  </div>
+
+  <footer class="site">Admindly · Interactive demo · v1 · black &amp; blue theme, light + dark · placeholder copy and sample data throughout · <a href="index.html">admindly.com</a></footer>
+</div>
+</body>
+</html>
