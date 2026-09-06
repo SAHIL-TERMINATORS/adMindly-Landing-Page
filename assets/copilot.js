@@ -139,9 +139,12 @@
       b.textContent = FALLBACK[fb++ % FALLBACK.length];
       var tag = document.createElement('div');
       tag.className = 'hint'; tag.style.marginTop = '4px';
-      tag.textContent = /busy|demand|429|503|unavailable|overload/i.test(err.message || '')
+      var m = err.message || '';
+      tag.textContent = /quota|billing|exceeded your current/i.test(m)
+        ? '⚠ The Gemini key hit its free-tier limit — that was a sample reply. Enable billing on the key to remove the cap.'
+        : /busy|demand|503|unavailable|overload/i.test(m)
         ? '⚠ Gemini is busy right now — that was a sample reply. Send again in a moment.'
-        : '⚠ Sample reply (backend unreachable): ' + (err.message || '');
+        : '⚠ Sample reply (backend unreachable): ' + m;
       b.appendChild(tag);
       setStatus('demo');
       console.warn('[copilot] scripted fallback:', err.message);

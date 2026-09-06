@@ -104,16 +104,21 @@ module.exports = async function handler(req, res) {
       lastStatus = r.status;
       lastMsg = (data && data.error && data.error.message) || `Gemini HTTP ${r.status}`;
       if (r.ok) break;
+      // hard quota / billing errors won't recover on retry
+      if (/quota|billing|exceeded your current/i.test(lastMsg)) break;
       if (![429, 500, 502, 503, 504].includes(r.status)) break; // non-retryable
     } catch (e) {
       lastStatus = 0; lastMsg = 'could not reach Gemini: ' + e.message;
     }
   }
   if (!data || !data.candidates) {
+    const quota = /quota|billing|exceeded your current/i.test(lastMsg);
     return res.status(502).json({
       error: lastMsg || 'Gemini request failed',
-      hint: lastStatus === 404 ? `Model "${MODEL}" not found — set GEMINI_MODEL to a current id.` : undefined,
-      retryable: [429, 500, 502, 503, 504, 0].includes(lastStatus)
+      hint: lastStatus === 404 ? `Model "${MODEL}" not found — set GEMINI_MODEL to a current id.`
+          : quota ? 'The Gemini key has hit its free-tier limit. Enable billing on the key at aistudio.google.com/apikey (pay-as-you-go).'
+          : undefined,
+      retryable: !quota && [429, 500, 502, 503, 504, 0].includes(lastStatus)
     });
   }
 

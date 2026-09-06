@@ -24,7 +24,7 @@
 
       <div class="page-head">
         <h2>Creative Copilot</h2>
-        <p>Bring a creative, get feedback and one-click edits. Accept a suggestion and Admindly regenerates the creative with the change applied — the core of the prototype.</p>
+        <p>Bring a creative, ask the Copilot anything, and apply its suggestions to the canvas. Feedback comes from Gemini; the badge by "Thread" shows whether it's live or a sample reply.</p>
       </div>
 
       <div class="row between center wrap" style="margin-bottom:12px;gap:8px">
@@ -123,85 +123,6 @@
         </section>
       </div>
 
-      <!-- ===================== prototype states ===================== -->
-      <div style="margin-top:34px">
-        <p class="eyebrow" style="margin-bottom:6px">Prototype states — priority screens</p>
-        <h3 style="font-size:18px;margin-bottom:16px">Copilot in every state</h3>
-
-        <div class="grid g-2">
-
-          <!-- empty -->
-          <div class="card">
-            <div class="card-title">A · Empty <span class="sub">first use</span></div>
-            <div class="dropzone" style="min-height:170px">
-              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-6 5-5 5 5m-5-5v13"/></svg>
-              <div style="font-weight:600;color:var(--text)">Drop a reel, post or static ad</div>
-              <div class="row wrap" style="gap:7px;justify-content:center">
-                <span class="btn sm">Import from Instagram</span>
-                <span class="btn sm">Upload file</span>
-              </div>
-            </div>
-            <p class="hint" style="margin-top:10px">Upload is the first and only action. Canvas shows a placeholder until a creative is added.</p>
-          </div>
-
-          <!-- suggestion -->
-          <div class="card">
-            <div class="card-title">B · Suggestion given</div>
-            <div class="col" style="gap:9px">
-              <div class="msg user" style="max-width:70%"><div class="bubble" style="font-size:12.5px">Does the hook land?</div></div>
-              <div class="msg ai" style="max-width:88%"><div class="bubble" style="font-size:12.5px">The first 2s have no motion — weak for a scroll feed.</div></div>
-              <div class="sugg" style="max-width:100%">
-                <span class="s-tag">Suggestion · reorder</span>
-                <div style="font-size:12.5px">Move the texture close-up to the first frame.</div>
-                <div class="s-actions"><button class="btn primary sm">Apply edit</button><button class="btn sm">Preview</button><button class="btn ghost sm">Dismiss</button></div>
-              </div>
-              <p class="hint">Canvas: original creative, unchanged.</p>
-            </div>
-          </div>
-
-          <!-- edit applied -->
-          <div class="card">
-            <div class="card-title">C · Edit applied <span class="sub">regenerated</span></div>
-            <div class="sys-line good"><span class="ln"></span> ✓ Edit applied — creative regenerated as v2 <span class="ln"></span></div>
-            <div class="ba-grid" style="margin:10px 0">
-              <div><div class="lab">Before · v1</div><div class="media" style="min-height:96px">shelf intro</div></div>
-              <div><div class="lab" style="color:var(--blue-hi)">After · v2</div><div class="media" style="min-height:96px;border-color:var(--blue-line)">texture-first</div></div>
-            </div>
-            <div class="row between center">
-              <div class="vs-items"><span class="vpill">v1</span><span class="vpill on">v2 · current</span></div>
-              <button class="btn ghost sm">Revert to v1</button>
-            </div>
-          </div>
-
-          <!-- reverted -->
-          <div class="card">
-            <div class="card-title">D · Edit reverted</div>
-            <div class="sys-line"><span class="ln"></span> ↩ Reverted to v1 · original <span class="ln"></span></div>
-            <div class="media" style="min-height:96px;margin:10px 0"><span class="pill">current · v1</span>back to original</div>
-            <div class="row between center" style="margin-bottom:10px">
-              <div class="vs-items"><span class="vpill on">v1 · current</span><span class="vpill" style="opacity:.5">v2 · superseded</span></div>
-            </div>
-            <div class="sugg" style="max-width:100%">
-              <span class="s-tag">Suggestion still available</span>
-              <div class="s-actions"><button class="btn primary sm">Re-apply edit</button><button class="btn ghost sm">Dismiss</button></div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="card" style="margin-top:16px">
-          <div class="card-title">E · Generating <span class="sub">edits take time</span></div>
-          <div class="row center" style="gap:14px">
-            <div class="ai-ico" style="width:34px;height:34px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:#fff">
-              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 3a9 9 0 1 0 9 9"/></svg>
-            </div>
-            <div>
-              <div style="font-weight:600;font-size:13.5px">Regenerating creative with 1 edit…</div>
-              <div class="hint">Thread shows a pending bubble; canvas dims with a progress bar; Apply / Revert disabled until done.</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div class="note-strip"><b>Split-pane</b> keeps feedback and the canvas in sync · <b>Preview / Edit / Apply</b> act on the creative in focus · <b>Creative Library</b> opens as a panel so you can switch creatives without leaving the thread.</div>
 
