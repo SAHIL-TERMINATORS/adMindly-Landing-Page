@@ -12,7 +12,8 @@
  * ----------------------------------------------------------------------------
  */
 
-const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const MODEL = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
+const THINKING_BUDGET = parseInt(process.env.GEMINI_THINKING_BUDGET || '128', 10);
 const KEY = process.env.GEMINI_API_KEY;
 const ALLOWED = (process.env.ALLOWED_ORIGINS || '*').split(',').map((s) => s.trim());
 
@@ -81,9 +82,10 @@ module.exports = async function handler(req, res) {
     contents,
     systemInstruction: { parts: [{ text: SYSTEM[task] }] },
     generationConfig: {
-      temperature: task === 'insight' ? 0.4 : 0.7,
-      maxOutputTokens: 700,
-      responseMimeType: 'application/json'
+      temperature: task === 'insight' ? 0.4 : 0.8,
+      maxOutputTokens: 1600,               // Gemini 3 spends part of this on thinking
+      responseMimeType: 'application/json',
+      ...(THINKING_BUDGET >= 0 ? { thinkingConfig: { thinkingBudget: THINKING_BUDGET } } : {})
     }
   };
 

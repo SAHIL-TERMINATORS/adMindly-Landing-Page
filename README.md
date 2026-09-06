@@ -180,7 +180,7 @@ GET  /api/instagram/insights?window=30|60|90
 | var | for | notes |
 |---|---|---|
 | `GEMINI_API_KEY` | chat | https://aistudio.google.com/apikey |
-| `GEMINI_MODEL` | chat | default `gemini-2.5-flash` |
+| `GEMINI_MODEL` | chat | default `gemini-3.6-flash` |
 | `IG_APP_ID` / `IG_APP_SECRET` | monitoring | Meta app → Instagram → Business login settings |
 | `IG_REDIRECT_URI` | monitoring | optional; defaults to `https://<host>/api/auth/instagram/callback` (must match the Meta app) |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | monitoring | upstash.com → Redis DB → REST |

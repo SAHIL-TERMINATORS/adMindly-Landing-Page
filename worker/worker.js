@@ -50,7 +50,8 @@ export default {
     if (request.method !== 'POST') return json({ error: 'POST only' }, 405, cors);
     if (!env.GEMINI_API_KEY) return json({ error: 'GEMINI_API_KEY is not set on the server' }, 500, cors);
 
-    const model = env.GEMINI_MODEL || 'gemini-2.5-flash';
+    const model = env.GEMINI_MODEL || 'gemini-3.6-flash';
+    const thinkingBudget = parseInt(env.GEMINI_THINKING_BUDGET || '128', 10);
     let body = {};
     try { body = await request.json(); } catch (e) {}
 
@@ -77,9 +78,10 @@ export default {
       contents,
       systemInstruction: { parts: [{ text: SYSTEM[task] }] },
       generationConfig: {
-        temperature: task === 'insight' ? 0.4 : 0.7,
-        maxOutputTokens: 700,
-        responseMimeType: 'application/json'
+        temperature: task === 'insight' ? 0.4 : 0.8,
+        maxOutputTokens: 1600,
+        responseMimeType: 'application/json',
+        ...(thinkingBudget >= 0 ? { thinkingConfig: { thinkingBudget } } : {})
       }
     };
 
