@@ -90,11 +90,11 @@
 
   function go(url) { return function () { location.href = base + url; }; }
   var gb = document.getElementById('loginGoogle');
-  if (gb) gb.addEventListener('click', go('/api/login/google/start?return=/auth.html'));
+  if (gb) gb.addEventListener('click', go('/api/login/google/start?return=/home.html'));
   var ib = document.getElementById('loginInstagram');
-  if (ib) ib.addEventListener('click', go('/api/auth/instagram/start?return=/auth.html'));
+  if (ib) ib.addEventListener('click', go('/api/auth/instagram/start?return=/home.html'));
   var db = document.getElementById('loginDiscord');
-  if (db) db.addEventListener('click', go('/api/login/discord/start?return=/auth.html'));
+  if (db) db.addEventListener('click', go('/api/login/discord/start?return=/home.html'));
 
   // grey out Instagram if it isn't set up on this deployment
   fetch(base + '/api/social/insights', { credentials: 'include' })
@@ -111,12 +111,6 @@
     errEl.hidden = false;
     errEl.textContent = 'Sign-in failed — ' + msg;
   }
-
-  // already signed in? skip straight to the dashboard
-  fetch(base + '/api/me', { credentials: 'include' })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { if (d && d.authenticated) location.replace('home.html'); })
-    .catch(function () {});
 })();
 </script>
 </body>
