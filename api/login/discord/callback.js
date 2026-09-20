@@ -1,4 +1,4 @@
-/* GET /api/login/google/callback — exchange code, read the Google profile,
+/* GET /api/login/discord/callback — exchange code, read the Discord profile,
  * attach the user to the session, redirect back (default /home.html). */
 const S = require('../../_social.js');
 
@@ -20,36 +20,37 @@ module.exports = async function handler(req, res) {
   const err = u.searchParams.get('error_description') || u.searchParams.get('error');
   const state = u.searchParams.get('state');
   if (err) return bail(err);
-  if (!code) {
-    var got = [...u.searchParams.keys()].join(',') || 'nothing';
-    return bail('no code (Google sent: ' + got + ') — add your email as a Test user on the OAuth consent screen, then retry');
-  }
+  if (!code) return bail('no code returned');
   if (!state || state !== cookies['login_state']) return bail('state mismatch — clear this site\'s cookies and retry');
 
   try {
-    const t = await S.httpJson('https://oauth2.googleapis.com/token', {
+    const t = await S.httpJson('https://discord.com/api/oauth2/token', {
       method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         code,
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: S.appBase(req) + '/api/login/google/callback',
+        client_id: process.env.DISCORD_CLIENT_ID,
+        client_secret: process.env.DISCORD_CLIENT_SECRET,
+        redirect_uri: S.appBase(req) + '/api/login/discord/callback',
         grant_type: 'authorization_code'
       })
     });
     if (!t.ok) throw new Error(t.data.error_description || t.data.error || ('token HTTP ' + t.status));
 
-    const info = await S.httpJson('https://www.googleapis.com/oauth2/v3/userinfo', {
+    const info = await S.httpJson('https://discord.com/api/users/@me', {
       headers: { authorization: 'Bearer ' + t.data.access_token }
     });
     if (!info.ok) throw new Error('userinfo HTTP ' + info.status);
 
+    const avatar = info.data.avatar
+      ? 'https://cdn.discordapp.com/avatars/' + info.data.id + '/' + info.data.avatar + '.png'
+      : null;
+
     await S.saveUser(req, res, {
-      sub: info.data.sub,
-      email: info.data.email,
-      name: info.data.name || info.data.email,
-      picture: info.data.picture || null,
-      provider: 'google',
+      sub: info.data.id,
+      email: info.data.email || null,
+      name: info.data.global_name || info.data.username,
+      picture: avatar,
+      provider: 'discord',
       at: Date.now()
     });
 

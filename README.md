@@ -14,14 +14,17 @@ scripted replies without it.
 
 | | Entry | What it is |
 |---|---|---|
-| **Marketing site** | `index.html` | Full landing page — hero, feature sections, how-it-works, testimonials, pricing, FAQ, footer. |
-| **Interactive demo** | `prototype.html` | Flow map / hub linking all nine app screens. |
+| **Sign in** | `index.html` | Redirects straight to `auth.html` — no marketing page sits in front of the app. |
+| **Interactive demo** | `prototype.html` | Flow map / hub linking all app screens (dev tool, not part of the sign-in flow). |
+
+The old marketing landing page (hero, pricing, testimonials, FAQ, footer) still
+exists at `marketing.html` for reference, but nothing links to it anymore.
 
 ### App screens (the demo)
 
 | File | Screen | Now does |
 |---|---|---|
-| `auth.html` | Authentication | Login / signup toggle, SSO placeholders, field-error state |
+| `auth.html` | Authentication | Sign in with **Google, Instagram or Discord** only (no email/password); redirects straight to `home.html` once authenticated |
 | `onboarding.html` | Onboarding | Role + category, then OAuth account connection |
 | `home.html` | Home / app shell | Navigation hub, connection status, quick links |
 | `chat.html` | Creative Copilot | Split thread + canvas; **live Gemini** replies + generated suggestions (scripted fallback); **Creative Library panel** to switch the creative in focus; per-creative **Preview / Edit / Apply** (+ Revert); accepts `?creative=<id>` and `?brief=<text>` |
@@ -181,9 +184,11 @@ GET  /api/instagram/insights?window=30|60|90
 |---|---|---|
 | `GEMINI_API_KEY` | chat | https://aistudio.google.com/apikey |
 | `GEMINI_MODEL` | chat | default `gemini-3.6-flash` |
-| `IG_APP_ID` / `IG_APP_SECRET` | monitoring | Meta app → Instagram → Business login settings |
+| `IG_APP_ID` / `IG_APP_SECRET` | monitoring + sign-in | Meta app → Instagram → Business login settings |
 | `IG_REDIRECT_URI` | monitoring | optional; defaults to `https://<host>/api/auth/instagram/callback` (must match the Meta app) |
-| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | monitoring | upstash.com → Redis DB → REST |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | sign-in | Google Cloud Console → OAuth client → redirect `https://<host>/api/login/google/callback` |
+| `DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` | sign-in | discord.com/developers/applications → OAuth2 → redirect `https://<host>/api/login/discord/callback` |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | monitoring + sign-in | upstash.com → Redis DB → REST |
 | `ALLOWED_ORIGINS` | both | comma-separated allowlist, default `*` |
 
 Everything degrades gracefully: with none of these set, the whole site works as

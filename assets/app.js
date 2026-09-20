@@ -90,8 +90,7 @@
         '<div class="sc-row"><span class="dot on"></span> Facebook · Lumen Skincare</div>' +
         '<div class="sc-row"><span class="dot off"></span> TikTok · not connected</div>' +
       '</div>' +
-      '<a class="nav-item" href="prototype.html" style="margin-top:8px">' + svg(ICONS.home) + '<span>Flow map</span></a>' +
-      '<a class="nav-item" href="index.html">' + svg(ICONS.search) + '<span>Back to site</span></a>';
+      '<a class="nav-item" href="prototype.html" style="margin-top:8px">' + svg(ICONS.home) + '<span>Flow map</span></a>';
   }
 
   function buildTopbar(title) {

@@ -20,7 +20,7 @@
 <div class="auth-shell">
 
   <aside class="auth-aside">
-    <a class="brand" href="index.html" style="padding:0">
+    <a class="brand" href="/" style="padding:0">
       <span class="logo">A</span>
       <span><span class="name">Admindly</span><span class="env">PROTOTYPE · v1</span></span>
     </a>
@@ -32,7 +32,7 @@
         <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> See what's working for the top brands in your category</div>
       </div>
     </div>
-    <p class="mono mute" style="font-size:11px">Google sign-in is live. Email / password is a demo — any input continues to onboarding.</p>
+    <p class="mono mute" style="font-size:11px">Sign in with Google, Instagram or Discord — no separate account or password.</p>
   </aside>
 
   <main class="auth-main">
@@ -42,32 +42,15 @@
         <span style="font-family:var(--display);font-weight:700;font-size:18px">Admindly</span>
       </div>
 
-      <div class="auth-toggle" role="tablist">
-        <button class="on" data-auth="login">Log In</button>
-        <button data-auth="signup">Sign Up</button>
-      </div>
+      <p class="hint" style="text-align:center">Log in or create an account with one of the providers below.</p>
 
       <p class="hint err" id="authError" hidden></p>
 
       <div class="sso-row" style="flex-direction:column">
         <button class="btn block" id="loginGoogle" type="button"><svg viewBox="0 0 24 24" style="stroke:none;fill:currentColor"><circle cx="12" cy="12" r="9"/></svg> Continue with Google</button>
         <button class="btn block" id="loginInstagram" type="button"><span class="pf ig" style="width:18px;height:18px;font-size:0;border-radius:5px"></span> Continue with Instagram</button>
+        <button class="btn block" id="loginDiscord" type="button"><span class="pf" style="width:18px;height:18px;font-size:0;border-radius:5px;background:#5865F2"></span> Continue with Discord</button>
       </div>
-      <div class="divider">OR</div>
-
-      <div class="field">
-        <label for="email">Work email</label>
-        <input class="input" id="email" type="email" value="you@brand.com" autocomplete="email">
-      </div>
-
-      <div class="field">
-        <label for="pw">Password</label>
-        <input class="input" id="pw" type="password" autocomplete="current-password">
-      </div>
-
-      <a class="btn primary block" href="onboarding.html">Log In</a>
-
-      <p class="hint" style="text-align:center">New here? <a data-auth="signup" href="#">Create an account</a> · then a 2-step setup.</p>
     </div>
   </main>
 </div>
@@ -78,20 +61,13 @@
   var meta = document.querySelector('meta[name="admindly:api-base"]');
   var base = (meta && meta.content || '').replace(/\/$/, '');
 
-  document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-auth]');
-    if (!t) return;
-    e.preventDefault();
-    document.querySelectorAll('.auth-toggle button').forEach(function (b) {
-      b.classList.toggle('on', b.getAttribute('data-auth') === t.getAttribute('data-auth'));
-    });
-  });
-
   function go(url) { return function () { location.href = base + url; }; }
   var gb = document.getElementById('loginGoogle');
   if (gb) gb.addEventListener('click', go('/api/login/google/start?return=/auth.html'));
   var ib = document.getElementById('loginInstagram');
   if (ib) ib.addEventListener('click', go('/api/auth/instagram/start?return=/auth.html'));
+  var db = document.getElementById('loginDiscord');
+  if (db) db.addEventListener('click', go('/api/login/discord/start?return=/auth.html'));
 
   // grey out Instagram if it isn't set up on this deployment
   fetch(base + '/api/social/insights', { credentials: 'include' })
@@ -109,10 +85,10 @@
     errEl.textContent = 'Sign-in failed — ' + msg;
   }
 
-  // already signed in? skip straight to onboarding
+  // already signed in? skip straight to the dashboard
   fetch(base + '/api/me', { credentials: 'include' })
     .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { if (d && d.authenticated) location.replace('onboarding.html'); })
+    .then(function (d) { if (d && d.authenticated) location.replace('home.html'); })
     .catch(function () {});
 })();
 </script>
