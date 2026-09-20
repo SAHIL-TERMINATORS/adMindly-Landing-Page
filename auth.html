@@ -32,7 +32,7 @@
         <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> See what's working for the top brands in your category</div>
       </div>
     </div>
-    <p class="mono mute" style="font-size:11px">Sign in with Google, Instagram or Discord — no separate account or password.</p>
+    <p class="mono mute" style="font-size:11px">Google sign-in is live. Email / password is a demo — any input continues to the dashboard.</p>
   </aside>
 
   <main class="auth-main">
@@ -42,7 +42,10 @@
         <span style="font-family:var(--display);font-weight:700;font-size:18px">Admindly</span>
       </div>
 
-      <p class="hint" style="text-align:center">Log in or create an account with one of the providers below.</p>
+      <div class="auth-toggle" role="tablist">
+        <button class="on" data-auth="login">Log In</button>
+        <button data-auth="signup">Sign Up</button>
+      </div>
 
       <p class="hint err" id="authError" hidden></p>
 
@@ -51,6 +54,21 @@
         <button class="btn block" id="loginInstagram" type="button"><span class="pf ig" style="width:18px;height:18px;font-size:0;border-radius:5px"></span> Continue with Instagram</button>
         <button class="btn block" id="loginDiscord" type="button"><span class="pf" style="width:18px;height:18px;font-size:0;border-radius:5px;background:#5865F2"></span> Continue with Discord</button>
       </div>
+      <div class="divider">OR</div>
+
+      <div class="field">
+        <label for="email">Work email</label>
+        <input class="input" id="email" type="email" value="you@brand.com" autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label for="pw">Password</label>
+        <input class="input" id="pw" type="password" autocomplete="current-password">
+      </div>
+
+      <a class="btn primary block" href="home.html">Log In</a>
+
+      <p class="hint" style="text-align:center">New here? <a data-auth="signup" href="#">Create an account</a></p>
     </div>
   </main>
 </div>
@@ -60,6 +78,15 @@
 (function () {
   var meta = document.querySelector('meta[name="admindly:api-base"]');
   var base = (meta && meta.content || '').replace(/\/$/, '');
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-auth]');
+    if (!t) return;
+    e.preventDefault();
+    document.querySelectorAll('.auth-toggle button').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-auth') === t.getAttribute('data-auth'));
+    });
+  });
 
   function go(url) { return function () { location.href = base + url; }; }
   var gb = document.getElementById('loginGoogle');
