@@ -163,6 +163,13 @@ This means the leaderboard is genuinely empty for a category until real
 Admindly accounts (real OAuth connections, not the demo email/password path)
 have onboarded into it — there's no scripted fallback data here by design.
 
+`/api/competitors` is a `vercel.json` rewrite onto `/api/profile.js`
+(`?_ep=competitors`) rather than its own file — this project sits right at
+Vercel Hobby's 12-serverless-function-per-deployment cap, so new endpoints
+get merged into an existing function instead of adding a new one. Check
+`find api -name "*.js" ! -name "_*" | wc -l` before adding another top-level
+`api/*.js` file.
+
 ## Live Monitoring (Instagram)
 
 The Monitoring dashboard shows **sample data** until an Instagram account is

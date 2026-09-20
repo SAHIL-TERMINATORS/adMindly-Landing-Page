@@ -3,7 +3,9 @@
  * Real snapshots only. A member is written here by api/social/insights.js
  * whenever a session has BOTH a category (set via api/profile.js, from
  * onboarding) AND at least one connected provider with real fetched data —
- * never from sample/scripted data. api/competitors.js reads it back.
+ * never from sample/scripted data. api/profile.js (the /api/competitors
+ * route, merged in to stay under Vercel's per-deployment function cap)
+ * reads it back.
  *
  *   lb:<slug>:members        Redis SET of session ids
  *   lb:<slug>:m:<sessionId>  Redis STRING (JSON snapshot), TTL-bound

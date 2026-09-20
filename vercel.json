@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/competitors", "destination": "/api/profile?_ep=competitors" }
+  ]
+}
