@@ -42,19 +42,13 @@
 
       <div class="field" style="margin-top:16px">
         <label for="cat">Category / niche</label>
-        <select class="input" id="cat">
-          <option>Beauty &amp; skincare</option>
-          <option>Fitness &amp; wellness</option>
-          <option>Food &amp; beverage</option>
-          <option>Fashion &amp; apparel</option>
-          <option>Tech &amp; SaaS</option>
-        </select>
-        <span class="hint">Drives the leaderboard and trend feed on the Competitor screen.</span>
+        <select class="input" id="cat"></select>
+        <span class="hint">Drives the leaderboard and trend feed on the Competitor screen — scoped to other real Admindly accounts in the same category.</span>
       </div>
 
       <div class="field" style="margin-top:14px">
         <label for="brand">Brand / handle</label>
-        <input class="input" id="brand" value="Lumen Skincare">
+        <input class="input" id="brand" placeholder="Your brand name">
       </div>
     </div>
 
@@ -71,17 +65,52 @@
 
     <div class="row between center">
       <a class="btn ghost" href="auth.html">← Back</a>
-      <a class="btn primary" href="home.html">Finish setup →</a>
+      <button class="btn primary" id="finish" type="button">Finish setup →</button>
     </div>
   </div>
 </div>
 <script src="assets/app.js"></script>
 <script>
-/* onboarding: wire the 4 "Connect" buttons to the real OAuth flows */
+/* onboarding: role/category/brand -> api/profile, "Connect" buttons -> real OAuth flows */
 (function () {
   var meta = document.querySelector('meta[name="admindly:api-base"]');
   var base = (meta && meta.content || '').replace(/\/$/, '');
   var grid = document.getElementById('obConnect');
+  var catSel = document.getElementById('cat');
+  var brandInput = document.getElementById('brand');
+  var rolePick = document.querySelector('.role-pick');
+  var finishBtn = document.getElementById('finish');
+
+  fetch(base + '/api/profile', { credentials: 'include' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      var cats = (j && j.categories) || [];
+      catSel.innerHTML = cats.map(function (c) { return '<option>' + c + '</option>'; }).join('');
+      var p = j && j.profile;
+      if (p) {
+        if (p.category) catSel.value = p.category;
+        if (p.brand) brandInput.value = p.brand;
+        if (p.role && rolePick) {
+          rolePick.querySelectorAll('.chip').forEach(function (c) {
+            c.classList.toggle('on', c.textContent.replace(/^◎\s*/, '') === p.role);
+          });
+        }
+      }
+    }).catch(function () {});
+
+  if (finishBtn) {
+    finishBtn.addEventListener('click', function () {
+      var roleChip = rolePick && rolePick.querySelector('.chip.on');
+      var role = roleChip ? roleChip.textContent.replace(/^◎\s*/, '').trim() : 'Marketer';
+      finishBtn.disabled = true;
+      finishBtn.textContent = 'Saving…';
+      fetch(base + '/api/profile', {
+        method: 'POST', credentials: 'include',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ role: role, category: catSel.value, brand: brandInput.value })
+      }).finally(function () { location.href = 'home.html'; });
+    });
+  }
   var LABELS = { instagram:'Instagram', facebook:'Facebook', youtube:'YouTube', tiktok:'TikTok' };
   var PF = { instagram:'ig', facebook:'fb', youtube:'yt', tiktok:'tt' };
   var DESC = { instagram:'Reach, engagement, follower growth', facebook:'Page insights, post performance',

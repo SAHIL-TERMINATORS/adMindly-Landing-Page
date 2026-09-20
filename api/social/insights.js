@@ -12,6 +12,7 @@
  * ---------------------------------------------------------------------------- */
 const S = require('../_social.js');
 const PROVIDERS = require('../_providers.js');
+const LB = require('../_leaderboard.js');
 
 module.exports = async function handler(req, res) {
   S.cors(res, req.headers.origin);
@@ -61,6 +62,25 @@ module.exports = async function handler(req, res) {
     reach: sum(live.map((e) => e.data.reach)),
     engagement_rate: avg(live.map((e) => e.data.engagement_rate))
   } : null;
+
+  // real connected data + a saved category -> refresh this user's spot on the
+  // real cross-user leaderboard for their category (never from sample data)
+  if (sess.id && totals && sess.profile && sess.profile.category) {
+    const best = live.slice().sort((a, b) => (b.data.engagement_rate || 0) - (a.data.engagement_rate || 0))[0];
+    LB.upsert(sess.id, sess.profile.category, {
+      name: sess.profile.brand || 'Unnamed brand',
+      role: sess.profile.role || null,
+      platform: best ? best.data.platform : null,
+      username: best ? best.data.username : null,
+      followers: totals.followers,
+      engagement_rate: totals.engagement_rate,
+      follower_growth: best ? best.data.follower_growth : null,
+      top_post: best && best.data.top_post
+        ? { name: best.data.top_post, engagement_rate: best.data.engagement_rate, reach: best.data.reach }
+        : null,
+      updated_at: Date.now()
+    }).catch(() => {});
+  }
 
   res.statusCode = 200;
   res.end(JSON.stringify({ window_days: windowDays, providers, totals }));

@@ -27,130 +27,143 @@
       <div class="row between center wrap" style="gap:12px;margin-bottom:16px">
         <div class="field" style="max-width:260px">
           <label for="niche">Category / niche</label>
-          <select class="input" id="niche">
-            <option>Beauty &amp; skincare</option>
-            <option>Beauty &amp; skincare · indie brands</option>
-            <option>Fitness &amp; wellness</option>
-          </select>
+          <select class="input" id="niche"></select>
         </div>
-        <div class="segment"><button class="on">This month</button><button>90 days</button></div>
       </div>
 
       <div class="grid" style="grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px">
 
         <!-- leaderboard -->
         <div>
-          <div class="card-title">Leaderboard <span class="sub">Beauty &amp; skincare · by engagement</span></div>
+          <div class="card-title">Leaderboard <span class="sub" id="lbSub">by engagement · real connected Admindly accounts</span></div>
 
-          <div class="lb-row is-sel" tabindex="0" role="button" data-comp="glow">
-            <div class="lb-rank top">1</div>
-            <div class="lb-av"></div>
-            <div><div class="lb-name">Glow Theory</div><div class="lb-cat">Indie skincare · 412k followers</div></div>
-            <div class="lb-metric"><div class="m">+18%</div><div class="l">growth / mo</div></div>
-          </div>
-          <div class="lb-row" tabindex="0" role="button" data-comp="rue"><div class="lb-rank">2</div><div class="lb-av"></div><div><div class="lb-name">Rue &amp; Ren</div><div class="lb-cat">Clean beauty · 288k followers</div></div><div class="lb-metric"><div class="m">5.9%</div><div class="l">eng. rate</div></div></div>
-          <div class="lb-row" tabindex="0" role="button" data-comp="haldi"><div class="lb-rank">3</div><div class="lb-av"></div><div><div class="lb-name">Haldi Co.</div><div class="lb-cat">Ayurvedic skincare · 196k followers</div></div><div class="lb-metric"><div class="m">5.1%</div><div class="l">eng. rate</div></div></div>
-          <div class="lb-row" tabindex="0" role="button" data-comp="lumen"><div class="lb-rank">4</div><div class="lb-av"></div><div><div class="lb-name">Lumen Skincare <span class="chip" style="padding:2px 7px;font-size:9px">you</span></div><div class="lb-cat">Indie skincare · 84k followers</div></div><div class="lb-metric"><div class="m">3.1%</div><div class="l">eng. rate</div></div></div>
-          <div class="lb-row" tabindex="0" role="button" data-comp="solene"><div class="lb-rank">5</div><div class="lb-av"></div><div><div class="lb-name">Solene</div><div class="lb-cat">Minimalist skincare · 71k followers</div></div><div class="lb-metric"><div class="m">2.8%</div><div class="l">eng. rate</div></div></div>
+          <div id="lbRows"><p class="hint">Loading…</p></div>
 
           <div class="card" style="margin-top:16px">
-            <div class="card-title"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--blue-hi);fill:none;stroke-width:2"><path d="M3 17 9 11l4 4 8-8"/><path d="M17 4h4v4"/></svg> Trending now <span class="sub">category-wide, not one competitor</span></div>
-            <div class="col" style="gap:9px">
-              <div class="row between center"><span style="font-size:13px">Founder-POV reels ("why I made this")</span><span class="chip good">▲ rising fast</span></div>
-              <div class="row between center"><span style="font-size:13px">Texture-first opening frames</span><span class="chip good">▲ rising</span></div>
-              <div class="row between center"><span style="font-size:13px">Static "ingredient breakdown" carousels</span><span class="chip">steady</span></div>
-              <div class="row between center"><span style="font-size:13px">Before/after grids</span><span class="chip warn">▼ cooling</span></div>
-            </div>
+            <div class="card-title"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--blue-hi);fill:none;stroke-width:2"><path d="M3 17 9 11l4 4 8-8"/><path d="M17 4h4v4"/></svg> Trending now <span class="sub">top real posts this window, category-wide</span></div>
+            <div class="col" id="trendRows" style="gap:9px"></div>
           </div>
         </div>
 
-        <!-- competitor detail -->
+        <!-- member detail -->
         <div class="card glow" style="align-self:start" id="cDetail">
           <div class="row between center" style="margin-bottom:12px">
-            <div class="row center" style="gap:10px"><span class="lb-av"></span><div><div style="font-weight:600" id="cName">Glow Theory</div><div class="lb-cat" id="cRank">#1 · Indie skincare</div></div></div>
-            <span class="chip good" id="cMetric">+18% / mo</span>
+            <div class="row center" style="gap:10px"><span class="lb-av"></span><div><div style="font-weight:600" id="cName">—</div><div class="lb-cat" id="cRank">Select a row</div></div></div>
+            <span class="chip good" id="cMetric">—</span>
           </div>
 
-          <span class="tag">What's working</span>
-          <div class="col" id="cNotes" style="gap:8px;margin:8px 0 14px">
-            <div class="note-strip" style="margin:0"><b>Trending format</b> — 4 of last 6 posts are founder-POV reels shot handheld, face in frame within 1s.</div>
-            <div class="note-strip" style="margin:0"><b>Posting cadence</b> — 5×/week, consistently 12–1pm. Reels only on Tue/Thu.</div>
-            <div class="note-strip" style="margin:0"><b>Standout creative</b> — "why our serum pills" reel: 1.2M views, 9.1% eng. Opens on a problem, not the product.</div>
-            <div class="note-strip" style="margin:0"><b>Attributed factors</b> — hook is a spoken question · captions are 1 line · no on-screen brand name until 0:05.</div>
-          </div>
+          <span class="tag">Real metrics</span>
+          <div class="col" id="cNotes" style="gap:8px;margin:8px 0 14px"></div>
 
-          <span class="tag">Standout posts</span>
-          <div class="grid g-3" style="gap:8px;margin:8px 0 16px">
-            <div class="media" style="min-height:74px;font-size:9px">reel · 1.2M</div>
-            <div class="media" style="min-height:74px;font-size:9px">reel · 640k</div>
-            <div class="media" style="min-height:74px;font-size:9px">carousel · 210k</div>
-          </div>
-
-          <a class="btn primary block" id="cBridge" href="chat.html?brief=founder-POV%20reel%2C%20spoken-question%20hook%2C%20texture-first%20opening%2C%20no%20brand%20name%20until%200%3A05"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Apply this trend to my next creative</a>
-          <p class="hint" style="margin-top:8px">Bridge action — opens the Copilot with this competitor's winning pattern pre-loaded as the brief.</p>
+          <a class="btn primary block" id="cBridge" href="chat.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Apply this trend to my next creative</a>
+          <p class="hint" style="margin-top:8px">Bridge action — opens the Copilot with this account's top real post pre-loaded as the brief.</p>
         </div>
       </div>
 
-      <div class="note-strip"><b>Category selector</b> scopes the leaderboard and trend feed · <b>competitor detail</b> opens from any leaderboard row · <b>bridge to Copilot</b> closes the loop back to creative.</div>
+      <div class="note-strip"><b>Category selector</b> scopes the leaderboard and trend feed to real Admindly accounts in that category · rows appear once an account has completed onboarding with that category <i>and</i> connected a real Instagram/Facebook/YouTube account · <b>bridge to Copilot</b> closes the loop back to creative.</div>
 
     </div>
   </div>
 </div>
 <script src="assets/app.js"></script>
 <script>
-/* prototype: click / Enter on a leaderboard row loads that competitor into the detail card */
+/* Real cross-user leaderboard: fetches api/competitors, no scripted rows */
 (function () {
-  var COMP = {
-    glow:   { name:'Glow Theory', rank:'#1 · Indie skincare', metric:'+18% / mo', good:true,
-      brief:'founder-POV reel, spoken-question hook, texture-first opening, no brand name until 0:05', notes:[
-      ['Trending format','4 of last 6 posts are founder-POV reels shot handheld, face in frame within 1s.'],
-      ['Posting cadence','5×/week, consistently 12–1pm. Reels only on Tue/Thu.'],
-      ['Standout creative','"why our serum pills" reel: 1.2M views, 9.1% eng. Opens on a problem, not the product.'],
-      ['Attributed factors','hook is a spoken question · captions are 1 line · no on-screen brand name until 0:05.']]},
-    rue:    { name:'Rue & Ren', rank:'#2 · Clean beauty', metric:'5.9% eng.', good:true,
-      brief:'ingredient-breakdown carousel, 6–8 slides, question on slide 1, muted palette, text-only cover', notes:[
-      ['Trending format','Ingredient-breakdown carousels — 6–8 slides, one claim per slide.'],
-      ['Posting cadence','4×/week, mornings 8–9am. Carousels Mon/Wed/Fri.'],
-      ['Standout creative','"what’s actually in your toner" carousel: 210k reach, 6.4% saves.'],
-      ['Attributed factors','slide 1 is a question · muted palette · text-only covers.']]},
-    haldi:  { name:'Haldi Co.', rank:'#3 · Ayurvedic skincare', metric:'5.1% eng.', good:true,
-      brief:'ritual / GRWM reel with a first-language voiceover, routine-led not hook-led', notes:[
-      ['Trending format','Ritual / GRWM reels with a voiceover in the founder’s first language.'],
-      ['Posting cadence','3×/week, evenings. Consistent Sunday "week ahead" post.'],
-      ['Standout creative','morning-ritual reel: 480k views, strong completion rate.'],
-      ['Attributed factors','slow first frame works here — audience watches for the routine, not a hook.']]},
-    lumen:  { name:'Lumen Skincare', rank:'#4 · Indie skincare (you)', metric:'3.1% eng.', good:false,
-      brief:'reorder hooks texture-first, cut shelf intros, test a founder-POV reel, move 2 posts/week to 12–2pm', notes:[
-      ['Where you’re strong','Texture close-ups outperform your category average by 2.1pt.'],
-      ['Where you’re losing','Shelf / product-on-surface intros — 1.6% eng vs 4%+ for face-first openers.'],
-      ['Cadence gap','3×/week vs the top 3 averaging 4–5×. Evening slots underperform your midday posts.'],
-      ['Next move','Reorder hooks texture-first, move 2 posts/week to 12–2pm, test a founder-POV reel.']]},
-    solene: { name:'Solene', rank:'#5 · Minimalist skincare', metric:'2.8% eng.', good:false,
-      brief:'add motion and a viewer question to the static single-product look; tighten posting cadence', notes:[
-      ['Trending format','Static single-product shots with large type. Low motion, low engagement.'],
-      ['Posting cadence','2×/week, irregular. Long gaps hurt reach.'],
-      ['Standout creative','none breaking out this period — flattest feed in the top 5.'],
-      ['Attributed factors','aesthetic is strong but the feed asks nothing of the viewer.']]}
-  };
+  var meta = document.querySelector('meta[name="admindly:api-base"]');
+  var base = (meta && meta.content || '').replace(/\/$/, '');
+  var niche = document.getElementById('niche');
+  var lbRows = document.getElementById('lbRows');
+  var lbSub = document.getElementById('lbSub');
+  var trendRows = document.getElementById('trendRows');
   var name = document.getElementById('cName'), rank = document.getElementById('cRank'),
       metric = document.getElementById('cMetric'), notes = document.getElementById('cNotes'),
       bridge = document.getElementById('cBridge');
-  function load(key, row) {
-    var c = COMP[key]; if (!c) return;
-    document.querySelectorAll('.lb-row[data-comp]').forEach(function (r) { r.classList.toggle('is-sel', r === row); });
-    name.textContent = c.name; rank.textContent = c.rank;
-    metric.textContent = c.metric; metric.className = 'chip ' + (c.good ? 'good' : 'warn');
-    notes.innerHTML = c.notes.map(function (n) {
-      return '<div class="note-strip" style="margin:0"><b>' + n[0] + '</b> — ' + n[1] + '</div>';
-    }).join('');
-    if (bridge && c.brief) bridge.href = 'chat.html?brief=' + encodeURIComponent(c.brief);
-  }
-  document.querySelectorAll('.lb-row[data-comp]').forEach(function (row) {
-    row.addEventListener('click', function () { load(row.getAttribute('data-comp'), row); });
-    row.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(row.getAttribute('data-comp'), row); }
+  var current = [];
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function fmtK(n) { if (n == null) return '—'; return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n); }
+  function pct(n) { return n == null ? '—' : n + '%'; }
+
+  function load(i) {
+    var m = current[i]; if (!m) return;
+    document.querySelectorAll('.lb-row[data-i]').forEach(function (r) {
+      r.classList.toggle('is-sel', +r.getAttribute('data-i') === i);
     });
-  });
+    name.innerHTML = esc(m.name) + (m.is_you ? ' <span class="chip" style="padding:2px 7px;font-size:9px">you</span>' : '');
+    rank.textContent = '#' + (i + 1) + (m.platform ? ' · ' + m.platform + (m.username ? ' @' + m.username : '') : '');
+    metric.textContent = pct(m.engagement_rate) + ' eng.';
+    metric.className = 'chip ' + (m.engagement_rate >= 4 ? 'good' : 'warn');
+    var rows = [];
+    rows.push(['Followers', fmtK(m.followers)]);
+    if (m.follower_growth != null) rows.push(['Follower growth this window', (m.follower_growth >= 0 ? '+' : '') + fmtK(m.follower_growth)]);
+    if (m.top_post) rows.push(['Top post', '"' + esc(m.top_post.name) + '" — ' + fmtK(m.top_post.reach) + ' reach, ' + pct(m.top_post.engagement_rate) + ' eng.']);
+    rows.push(['Last updated', m.updated_at ? new Date(m.updated_at).toLocaleDateString() : '—']);
+    notes.innerHTML = rows.map(function (r) {
+      return '<div class="note-strip" style="margin:0"><b>' + r[0] + '</b> — ' + r[1] + '</div>';
+    }).join('');
+    if (bridge) {
+      if (m.top_post && m.top_post.name) { bridge.href = 'chat.html?brief=' + encodeURIComponent(m.top_post.name); bridge.classList.remove('disabled'); }
+      else { bridge.href = 'chat.html'; }
+    }
+  }
+
+  function render(data) {
+    current = data.members || [];
+    lbSub.textContent = (data.count || 0) + ' real connected account' + (data.count === 1 ? '' : 's') + ' · by engagement';
+
+    if (!current.length) {
+      lbRows.innerHTML = '<p class="hint">No real Admindly accounts in this category yet — rows appear once someone completes onboarding with this category and connects a real Instagram, Facebook or YouTube account.</p>';
+      name.textContent = '—'; rank.textContent = 'No data yet'; metric.textContent = '—'; metric.className = 'chip';
+      notes.innerHTML = '';
+      return;
+    }
+
+    lbRows.innerHTML = current.map(function (m, i) {
+      return '<div class="lb-row' + (i === 0 ? ' is-sel' : '') + '" tabindex="0" role="button" data-i="' + i + '">' +
+        '<div class="lb-rank' + (i === 0 ? ' top' : '') + '">' + (i + 1) + '</div>' +
+        '<div class="lb-av"></div>' +
+        '<div><div class="lb-name">' + esc(m.name) + (m.is_you ? ' <span class="chip" style="padding:2px 7px;font-size:9px">you</span>' : '') + '</div>' +
+        '<div class="lb-cat">' + (m.platform || 'connected') + ' · ' + fmtK(m.followers) + ' followers</div></div>' +
+        '<div class="lb-metric"><div class="m">' + pct(m.engagement_rate) + '</div><div class="l">eng. rate</div></div>' +
+        '</div>';
+    }).join('');
+
+    document.querySelectorAll('.lb-row[data-i]').forEach(function (row) {
+      row.addEventListener('click', function () { load(+row.getAttribute('data-i')); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(+row.getAttribute('data-i')); }
+      });
+    });
+    load(0);
+
+    trendRows.innerHTML = (data.trending || []).length
+      ? data.trending.map(function (t) {
+          return '<div class="row between center"><span style="font-size:13px">"' + esc(t.name) + '" — ' + esc(t.by) + '</span>' +
+            '<span class="chip good">' + pct(t.engagement_rate) + '</span></div>';
+        }).join('')
+      : '<p class="hint" style="margin:0">No real posts to rank yet for this category.</p>';
+  }
+
+  function fetchCategory(cat) {
+    lbRows.innerHTML = '<p class="hint">Loading…</p>';
+    fetch(base + '/api/competitors?category=' + encodeURIComponent(cat), { credentials: 'include' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () { lbRows.innerHTML = '<p class="hint">Could not load the leaderboard.</p>'; });
+  }
+
+  fetch(base + '/api/profile', { credentials: 'include' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      var cats = (j && j.categories) || [];
+      niche.innerHTML = cats.map(function (c) { return '<option>' + esc(c) + '</option>'; }).join('');
+      var mine = j && j.profile && j.profile.category;
+      if (mine && cats.indexOf(mine) !== -1) niche.value = mine;
+      fetchCategory(niche.value);
+    })
+    .catch(function () { lbRows.innerHTML = '<p class="hint">Could not load categories.</p>'; });
+
+  niche.addEventListener('change', function () { fetchCategory(niche.value); });
 })();
 </script>
 </body>

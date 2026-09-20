@@ -148,6 +148,21 @@ functions or an equivalent Node backend.)
 For real traffic, add rate-limiting at the proxy (Vercel/Cloudflare both have
 KV / edge options) — a public endpoint with your key is otherwise open to abuse.
 
+## Live Competitor Analysis (real users, not scripted)
+
+The Competitor screen is a **real cross-user leaderboard**, not sample data.
+Onboarding saves each account's category (`api/profile.js`, stored on the
+session). Every time a session with a saved category loads real connected
+data — i.e. `api/social/insights` runs and actually fetches from Instagram /
+Facebook / YouTube — that account's real metrics (name, platform, followers,
+engagement rate, follower growth, top post) get upserted into a per-category
+leaderboard in Upstash Redis (`api/_leaderboard.js`). `api/competitors.js`
+reads that leaderboard back for `competitors.html`.
+
+This means the leaderboard is genuinely empty for a category until real
+Admindly accounts (real OAuth connections, not the demo email/password path)
+have onboarded into it — there's no scripted fallback data here by design.
+
 ## Live Monitoring (Instagram)
 
 The Monitoring dashboard shows **sample data** until an Instagram account is
