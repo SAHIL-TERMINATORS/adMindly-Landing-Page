@@ -86,9 +86,7 @@
       '<div class="spacer"></div>' +
       '<div class="side-card">' +
         '<div class="sc-title">Connected accounts</div>' +
-        '<div class="sc-row"><span class="dot on"></span> Instagram · @lumen.skincare</div>' +
-        '<div class="sc-row"><span class="dot on"></span> Facebook · Lumen Skincare</div>' +
-        '<div class="sc-row"><span class="dot off"></span> TikTok · not connected</div>' +
+        '<div id="scAccounts" class="sc-row mute">Loading…</div>' +
       '</div>' +
       '<a class="nav-item" href="prototype.html" style="margin-top:8px">' + svg(ICONS.home) + '<span>Flow map</span></a>';
   }
@@ -135,6 +133,28 @@
       }).catch(function () {});
   }
 
+  function wireAccounts() {
+    var el = document.getElementById('scAccounts');
+    if (!el) return;
+    var LABEL = { instagram: 'Instagram', facebook: 'Facebook', youtube: 'YouTube', tiktok: 'TikTok' };
+    var ORDER = ['instagram', 'facebook', 'youtube', 'tiktok'];
+    fetch(API_BASE + '/api/social/insights', { credentials: 'include' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var providers = d && d.providers;
+        if (!providers) throw new Error('no data');
+        el.className = '';
+        el.id = '';
+        el.outerHTML = ORDER.filter(function (name) { return providers[name]; }).map(function (name) {
+          var p = providers[name];
+          var state = !p.configured ? 'not available' : (p.connected ? ('@' + (p.username || 'connected')) : 'not connected');
+          return '<div class="sc-row"><span class="dot ' + (p.connected ? 'on' : 'off') + '"></span> ' +
+            LABEL[name] + ' · ' + state + '</div>';
+        }).join('');
+      })
+      .catch(function () { el.textContent = 'Unable to load connected accounts'; });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var body = document.body;
     if (body.getAttribute('data-chrome') === 'none') return;
@@ -149,6 +169,7 @@
     side.className = 'sidebar';
     side.innerHTML = buildSidebar(page);
     app.insertBefore(side, app.firstChild);
+    wireAccounts();
 
     var main = app.querySelector('.main');
     if (main) {
